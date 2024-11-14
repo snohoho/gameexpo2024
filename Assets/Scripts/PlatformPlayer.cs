@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Splines;
 using TMPro;
 
 public class PlatformPlayer : MonoBehaviour
@@ -10,6 +12,7 @@ public class PlatformPlayer : MonoBehaviour
     //movement
     private Rigidbody rb;
     private Vector2 moveInput;
+    private bool lookingLeft;
 
     //speed params
     [Header("Speed Params")]
@@ -33,7 +36,12 @@ public class PlatformPlayer : MonoBehaviour
     private bool dropDashing;
 
     //grinding params
+    [Header("Grinding")]
+    //[SerializeField] private Collider grindBox;
     private bool grinding;
+    private GrindRail currentRail;
+    float timeForFullSpline;
+    float elapsedTime;
 
     //debug
     [Header("Debugging")]
@@ -49,6 +57,7 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         canJump = true;
+        lookingLeft = true;
     }
 
     void FixedUpdate()
@@ -71,19 +80,22 @@ public class PlatformPlayer : MonoBehaviour
         //dir control
         if(moveInput.x > 0) {
             transform.localRotation = Quaternion.Euler(0,0,0);
+            lookingLeft = true;
         }
         if(moveInput.x < 0) {
             transform.localRotation  = Quaternion.Euler(0,-180,0);
+            lookingLeft = false;
         }
         
         rb.velocity = new Vector3(velX, velY, 0);
 
-        if(jumping && canJump)
-        {
+        //jump handling
+        if(jumping && canJump) {
             canJump = false;
             rb.AddForce(new Vector3(0, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
         }
 
+        //dash handling
         if(dashing && dashCount >= 0) {
             dashing = false;
             rb.velocity = Vector3.zero;
@@ -120,6 +132,29 @@ public class PlatformPlayer : MonoBehaviour
             rb.useGravity = true;
         }
 
+        //grind handling
+        if(grinding) {
+            rb.velocity = Vector3.zero;
+            float progress = elapsedTime / timeForFullSpline;
+
+            if(progress < 0 || progress > 1) {
+                grinding = false;
+                transform.position += transform.right * 1;
+                return;
+            }
+
+            float3 railPos = currentRail.spline.Spline.EvaluatePosition(progress);
+            railPos = currentRail.transform.TransformPoint(railPos);
+            transform.position = railPos.toVector3() + transform.up+1;
+
+            if(lookingLeft) {
+                elapsedTime -= Time.fixedDeltaTime;
+            }
+            else {
+                elapsedTime += Time.fixedDeltaTime;
+            }
+        }
+
         speedTrack.text = rb.velocity.magnitude.ToString();  
         ddTimerTrack.text = dropDashTimer.ToString();
     }
@@ -136,7 +171,7 @@ public class PlatformPlayer : MonoBehaviour
             //drop dash
             if(moveInput.y < -0.7 && dropDashTimer <= 30 || dropDashing) {
                 Debug.Log("BOOM DROP DASH");
-                if(Mathf.Round(transform.localRotation.y) == 0) {
+                if(lookingLeft) {
                     rb.AddForce(new Vector3(1,0,0) * dropDashSpeed, ForceMode.VelocityChange); 
                 }
                 else {
@@ -145,12 +180,33 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
-        }   
+        }    
     }
 
     private void OnTriggerEnter(Collider col) {
         if(col.gameObject.tag == "Rail") {
+            Debug.Log("grind rail contact");
+
+            currentRail = col.gameObject.GetComponent<GrindRail>();
+
+            float3 nearestPoint;
+            Vector3 playerRailStart = currentRail.transform.InverseTransformPoint(transform.position);
+            SplineUtility.GetNearestPoint(currentRail.spline.Spline, playerRailStart, out nearestPoint, out float time);
+
+            nearestPoint = currentRail.transform.TransformPoint(nearestPoint);
+            transform.position = nearestPoint.toVector3();
+
+            timeForFullSpline = currentRail.length / rb.velocity.magnitude;
+            elapsedTime = timeForFullSpline * time;
+
             grinding = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col) {
+        if(col.gameObject.tag == "Rail") {
+            Debug.Log("grind rail exit");
+            grinding = false;
         }
     }
 
