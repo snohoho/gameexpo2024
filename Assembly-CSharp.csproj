@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlatformPlayer.cs" />
     <Compile Include="Assets\Scripts\Vector3Extensions.cs" />
+    <Compile Include="Assets\Scripts\GrindBoxCollider.cs" />
     <Compile Include="Assets\Scripts\GrindRail.cs" />
   </ItemGroup>
   <ItemGroup>

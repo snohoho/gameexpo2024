@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Trick",
+                    "type": "Button",
+                    "id": "8d1886fd-b88a-439b-9dec-f921c5e3736f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Inventory",
                     "type": "Button",
                     "id": "6e957313-9498-4921-b6ed-1451478c9141",
@@ -128,6 +137,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "beb351c7-64b1-49f9-8b88-ef61c04f39bd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

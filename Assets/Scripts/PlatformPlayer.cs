@@ -13,6 +13,7 @@ public class PlatformPlayer : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool lookingLeft;
+    private float currentSpeed;
 
     //speed params
     [Header("Speed Params")]
@@ -37,17 +38,32 @@ public class PlatformPlayer : MonoBehaviour
 
     //grinding params
     [Header("Grinding")]
-    //[SerializeField] private Collider grindBox;
+    [SerializeField] private GameObject grindBox;
     private bool grinding;
     private GrindRail currentRail;
     float timeForFullSpline;
     float elapsedTime;
+    private Vector2 grindMoveInputStorage;
+    private float grindOffset = 1;
+
+    //tricking params
+    [Header("Tricking + Combos")]
+    [SerializeField] private int trickCooldown = 30;
+    private int trickTimer = 0;
+    private int manualTimer = 0;
+    private bool tricking;
+    private bool manualing;
+    private int comboMeter;
 
     //debug
     [Header("Debugging")]
     [SerializeField] private TextMeshPro speedTrack;
     [SerializeField] private TextMeshPro lastDirTrack;
     [SerializeField] private TextMeshPro ddTimerTrack;
+    [SerializeField] private TextMeshPro trickTimerTrack;
+    [SerializeField] private TextMeshPro comboMeterTrack;
+    [SerializeField] private TextMeshPro manualTrack;
+    [SerializeField] private TextMeshPro manualTimerTrack;
 
     void Start()
     {
@@ -102,12 +118,7 @@ public class PlatformPlayer : MonoBehaviour
 
             //dash if not holding a mov direction
             if(Mathf.Round(moveInput.x) == 0 && Mathf.Round(moveInput.y) == 0) {
-                if(Mathf.Round(transform.localRotation.y) == 0) {
-                    rb.AddForce(new Vector3(1,0,0) * dropDashSpeed, ForceMode.VelocityChange); 
-                }
-                else {
-                    rb.AddForce(new Vector3(-1,0,0) * dropDashSpeed, ForceMode.VelocityChange); 
-                }
+                rb.AddForce(transform.right * dashSpeed, ForceMode.VelocityChange); 
             }
             else {
                 rb.AddForce(new Vector3(moveInput.x, moveInput.y, 0).normalized * dashSpeed, ForceMode.VelocityChange);
@@ -125,8 +136,8 @@ public class PlatformPlayer : MonoBehaviour
             lastDirTrack.text = moveInput.x.ToString() + " " + moveInput.y.ToString() + " " + moveInput.magnitude;   
         }
 
-        dashTimer += 1;
-        dropDashTimer += 1;
+        dashTimer++;
+        dropDashTimer++;
 
         if(dashTimer >= 10) {
             rb.useGravity = true;
@@ -137,15 +148,28 @@ public class PlatformPlayer : MonoBehaviour
             rb.velocity = Vector3.zero;
             float progress = elapsedTime / timeForFullSpline;
 
-            if(progress < 0 || progress > 1) {
+            if(progress < 0 || progress > 1 || jumping) {
                 grinding = false;
-                transform.position += transform.right * 1;
+                if(jumping) {
+                    if(grindMoveInputStorage.x > 0) {
+                        transform.localRotation = Quaternion.Euler(0,0,0);
+                        lookingLeft = true;
+                    }
+                    if(grindMoveInputStorage.x < 0) {
+                        transform.localRotation  = Quaternion.Euler(0,-180,0);
+                        lookingLeft = false;
+                    }
+                    
+                    rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
+                }
+                rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);;
                 return;
             }
 
             float3 railPos = currentRail.spline.Spline.EvaluatePosition(progress);
             railPos = currentRail.transform.TransformPoint(railPos);
-            transform.position = railPos.toVector3() + transform.up+1;
+            transform.position = railPos.toVector3() + transform.up*grindOffset;
+            //transform.up += new Vector3(0,grindOffset,0);
 
             if(lookingLeft) {
                 elapsedTime -= Time.fixedDeltaTime;
@@ -155,8 +179,35 @@ public class PlatformPlayer : MonoBehaviour
             }
         }
 
+        //trick handling
+        if(tricking) {
+            comboMeter++;
+            tricking = false;
+        }
+        if(!manualing) {
+            manualTimer--;
+            if(manualTimer <= 0) {
+                RaycastHit ray;
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+                    //Debug.Log("not manualing while on ground end combo");
+                    comboMeter = 0;
+                }
+                manualing = false;
+            }
+        }
+        else {
+            manualTimer = 20;
+        }
+
+        trickTimer--;
+
+        //debug
         speedTrack.text = rb.velocity.magnitude.ToString();  
         ddTimerTrack.text = dropDashTimer.ToString();
+        trickTimerTrack.text = trickTimer.ToString();
+        comboMeterTrack.text = comboMeter.ToString();
+        manualTrack.text = manualing.ToString();
+        manualTimerTrack.text = manualTimer.ToString();
     }
 
     private void OnCollisionEnter(Collision col)
@@ -165,18 +216,17 @@ public class PlatformPlayer : MonoBehaviour
             Debug.Log("floor contact");
             canJump = true;
             dashCount = 2;
+            if(!manualing) {
+                comboMeter = 0;
+            }
+            
             rb.useGravity = true;
             dashTimer = 0;
 
             //drop dash
             if(moveInput.y < -0.7 && dropDashTimer <= 30 || dropDashing) {
                 Debug.Log("BOOM DROP DASH");
-                if(lookingLeft) {
-                    rb.AddForce(new Vector3(1,0,0) * dropDashSpeed, ForceMode.VelocityChange); 
-                }
-                else {
-                    rb.AddForce(new Vector3(-1,0,0) * dropDashSpeed, ForceMode.VelocityChange); 
-                }
+                rb.AddForce(transform.right * dropDashSpeed, ForceMode.VelocityChange); 
             }
 
             dropDashing = false;
@@ -184,10 +234,11 @@ public class PlatformPlayer : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col) {
-        if(col.gameObject.tag == "Rail") {
-            Debug.Log("grind rail contact");
+        if(grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding) {
+            //Debug.Log("grind rail contact");
 
             currentRail = col.gameObject.GetComponent<GrindRail>();
+            currentSpeed = rb.velocity.magnitude;
 
             float3 nearestPoint;
             Vector3 playerRailStart = currentRail.transform.InverseTransformPoint(transform.position);
@@ -196,16 +247,18 @@ public class PlatformPlayer : MonoBehaviour
             nearestPoint = currentRail.transform.TransformPoint(nearestPoint);
             transform.position = nearestPoint.toVector3();
 
-            timeForFullSpline = currentRail.length / rb.velocity.magnitude;
+            timeForFullSpline = currentRail.length / currentSpeed;
             elapsedTime = timeForFullSpline * time;
 
+            dropDashing = false;
+            jumping = false;
             grinding = true;
         }
     }
 
     private void OnTriggerExit(Collider col) {
-        if(col.gameObject.tag == "Rail") {
-            Debug.Log("grind rail exit");
+        if(!grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding) {
+            //Debug.Log("grind rail exit");
             grinding = false;
         }
     }
@@ -213,8 +266,11 @@ public class PlatformPlayer : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         if (context.started || context.performed) {
+            if(grinding) {
+                grindMoveInputStorage = context.ReadValue<Vector2>();
+                return;
+            }
             moveInput = context.ReadValue<Vector2>();
-            
         }
         if (context.canceled) {
             moveInput = Vector2.zero;
@@ -236,12 +292,40 @@ public class PlatformPlayer : MonoBehaviour
         if(context.started) {
             dashing = true;
             dropDashing = false;
-            dashCount--;
             dashTimer = 0;
             dropDashTimer = 0;
+
+            //cast a ray down. if it doesnt hit the ground then update the dash counter
+            //also updates if they dash up
+            RaycastHit ray;
+            if(!Physics.Raycast(transform.position, -transform.up, out ray, 1f) || moveInput.y > 0) {
+                Debug.Log("update dash");
+                dashCount--;
+            }
         }
         if(context.canceled) {
             dashing = false;
+        }
+    }
+
+    public void Trick(InputAction.CallbackContext context) {
+        if(context.started && trickTimer <= 0) {
+            trickTimer = trickCooldown;
+            tricking = true;
+
+            //cast a ray down. if it hits the ground then enter a manual
+            RaycastHit ray;
+            if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+                Debug.Log("maunal");
+                manualing = true;
+            }
+        }
+        if(context.performed) {
+            manualing = true;
+        }
+        if(context.canceled) {
+            tricking = false;
+            manualing = false; 
         }
     }
 }
