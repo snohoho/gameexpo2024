@@ -13,7 +13,7 @@ public class PlatformPlayer : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool lookingLeft;
-    private float currentSpeed;
+    public float currentSpeed;
 
     //speed params
     [Header("Speed Params")]
@@ -30,8 +30,8 @@ public class PlatformPlayer : MonoBehaviour
     [Header("Dash Params")]
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float dropDashSpeed = 50f;
-    [SerializeField] private int dashCount = 2;
-    private bool dashing;
+    [SerializeField] public int dashCount = 2;
+    public bool dashing;
     private int dashTimer = 0;
     private int dropDashTimer = 0;
     private bool dropDashing;
@@ -41,8 +41,8 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private GameObject grindBox;
     private bool grinding;
     private GrindRail currentRail;
-    float timeForFullSpline;
-    float elapsedTime;
+    private float timeForFullSpline;
+    private float elapsedTime;
     private Vector2 grindMoveInputStorage;
     private float grindOffset = 1;
 
@@ -53,7 +53,13 @@ public class PlatformPlayer : MonoBehaviour
     private int manualTimer = 0;
     private bool tricking;
     private bool manualing;
-    private int comboMeter;
+    public int comboMeter;
+
+    //timestop params
+    [Header("Time Stop")]
+    [SerializeField] private float timeStopBarMax = 500;
+    private float timeStopBar = 500;
+    public bool stoppingTime;
 
     //debug
     [Header("Debugging")]
@@ -64,6 +70,7 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private TextMeshPro comboMeterTrack;
     [SerializeField] private TextMeshPro manualTrack;
     [SerializeField] private TextMeshPro manualTimerTrack;
+    [SerializeField] private TextMeshPro timeStopBarTrack;
 
     void Start()
     {
@@ -74,6 +81,7 @@ public class PlatformPlayer : MonoBehaviour
 
         canJump = true;
         lookingLeft = true;
+        stoppingTime = false;
     }
 
     void FixedUpdate()
@@ -93,6 +101,10 @@ public class PlatformPlayer : MonoBehaviour
             velY = jumpHeight;
         }
 
+        if(!dashing && !grinding) {
+            currentSpeed = rb.velocity.x;
+        }
+
         //dir control
         if(moveInput.x > 0) {
             transform.localRotation = Quaternion.Euler(0,0,0);
@@ -108,7 +120,7 @@ public class PlatformPlayer : MonoBehaviour
         //jump handling
         if(jumping && canJump) {
             canJump = false;
-            rb.AddForce(new Vector3(0, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
+            rb.AddForce(transform.up * jumpHeight, ForceMode.VelocityChange);
         }
 
         //dash handling
@@ -184,7 +196,7 @@ public class PlatformPlayer : MonoBehaviour
             comboMeter++;
             tricking = false;
         }
-        if(!manualing) {
+        if(!manualing || (Mathf.Abs(rb.velocity.x) < 0.5f && !grinding)) {
             manualTimer--;
             if(manualTimer <= 0) {
                 RaycastHit ray;
@@ -200,7 +212,22 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         trickTimer--;
+        
+        //timestop handling
+        if(timeStopBar >= timeStopBarMax) {
+            timeStopBar = timeStopBarMax;
+        }
 
+        if(stoppingTime) {
+            timeStopBar--;
+        }
+        else if(!stoppingTime) {
+            timeStopBar += 0.5f;
+        }
+        if(stoppingTime && timeStopBar <= 0) {
+            stoppingTime = false;
+        }
+        
         //debug
         speedTrack.text = rb.velocity.magnitude.ToString();  
         ddTimerTrack.text = dropDashTimer.ToString();
@@ -208,6 +235,7 @@ public class PlatformPlayer : MonoBehaviour
         comboMeterTrack.text = comboMeter.ToString();
         manualTrack.text = manualing.ToString();
         manualTimerTrack.text = manualTimer.ToString();
+        timeStopBarTrack.text = timeStopBar.ToString();
     }
 
     private void OnCollisionEnter(Collision col)
@@ -239,6 +267,9 @@ public class PlatformPlayer : MonoBehaviour
 
             currentRail = col.gameObject.GetComponent<GrindRail>();
             currentSpeed = rb.velocity.magnitude;
+            if(currentSpeed > 25.0f) {
+                currentSpeed = 25.0f;
+            }
 
             float3 nearestPoint;
             Vector3 playerRailStart = currentRail.transform.InverseTransformPoint(transform.position);
@@ -249,6 +280,8 @@ public class PlatformPlayer : MonoBehaviour
 
             timeForFullSpline = currentRail.length / currentSpeed;
             elapsedTime = timeForFullSpline * time;
+
+            grindMoveInputStorage = transform.right;
 
             dropDashing = false;
             jumping = false;
@@ -326,6 +359,13 @@ public class PlatformPlayer : MonoBehaviour
         if(context.canceled) {
             tricking = false;
             manualing = false; 
+        }
+    }
+
+    public void TimeStop(InputAction.CallbackContext context) {
+        if(context.started && timeStopBar > 0) {
+            Debug.Log("test");
+            stoppingTime = !stoppingTime;
         }
     }
 }
