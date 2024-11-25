@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\EnemyHitboxController.cs" />
     <Compile Include="Assets\Scripts\Vector3Extensions.cs" />
     <Compile Include="Assets\Scripts\GrindBoxCollider.cs" />
+    <Compile Include="Assets\Scripts\InventoryHandler.cs" />
     <Compile Include="Assets\Scripts\EnemyPatroller.cs" />
     <Compile Include="Assets\Scripts\GrindRail.cs" />
   </ItemGroup>

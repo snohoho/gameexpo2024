@@ -23,13 +23,13 @@ public class PlayerCam : MonoBehaviour
 
         sizeCheck = 15.0f * (1 + Mathf.Abs(currentSpeed)/70);
         
-        if(sizeCheck <= 20.0f && !dashing && !dashingDeccel) {
+        if(sizeCheck <= (1 + Mathf.Abs(25)/70) && !dashing && !dashingDeccel) {
             cam.orthographicSize = sizeCheck;
         }
-        if(playerScript.dashing && playerScript.dashCount > 0) {
+        if(playerScript.dashing && playerScript.dashCount >= 0) {
             StartCoroutine(DashCameraBoost());
         }
-        if(cam.orthographicSize >= 24.0f && !dashing) {
+        if(cam.orthographicSize >= 20.1f && !dashing) {
             StartCoroutine(DashCameraDeccel());
         }
     }
@@ -39,7 +39,7 @@ public class PlayerCam : MonoBehaviour
         dashing = true;
         
         while(cam.orthographicSize < 25.0f) {
-            cam.orthographicSize += 0.7f;
+            cam.orthographicSize += 0.8f;
             yield return new WaitForEndOfFrame();
         }
 
@@ -50,7 +50,7 @@ public class PlayerCam : MonoBehaviour
         dashingDeccel = true;
         
         while(cam.orthographicSize > sizeCheck) {
-            cam.orthographicSize -= 0.7f;
+            cam.orthographicSize -= 0.8f;
             yield return new WaitForEndOfFrame();
         }
 
