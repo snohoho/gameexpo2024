@@ -15,6 +15,9 @@ public class PlatformPlayer : MonoBehaviour
     private bool lookingLeft;
     public float currentSpeed;
 
+    //hp handling
+    public int hp = 3;
+
     //speed params
     [Header("Speed Params")]
     [SerializeField] private float maxSpeed = 25f;
@@ -32,8 +35,8 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private float dropDashSpeed = 50f;
     [SerializeField] public int dashCount = 2;
     public bool dashing;
-    private int dashTimer = 0;
-    private int dropDashTimer = 0;
+    private float dashTimer = 0;
+    private float dropDashTimer = 0;
     private bool dropDashing;
 
     //grinding params
@@ -49,17 +52,21 @@ public class PlatformPlayer : MonoBehaviour
     //tricking params
     [Header("Tricking + Combos")]
     [SerializeField] private int trickCooldown = 30;
-    private int trickTimer = 0;
-    private int manualTimer = 0;
+    private float trickTimer = 0;
+    private float manualTimer = 0;
     private bool tricking;
     private bool manualing;
     public int comboMeter;
 
     //timestop params
     [Header("Time Stop")]
-    [SerializeField] private float timeStopBarMax = 500;
-    private float timeStopBar = 500;
+    [SerializeField] private float timeStopBarMax = 300;
+    public float timeStopBar = 300;
     public bool stoppingTime;
+    
+    //other
+    [Header("Other Stuff")]
+    [SerializeField] private Canvas inv;
 
     //debug
     [Header("Debugging")]
@@ -82,6 +89,9 @@ public class PlatformPlayer : MonoBehaviour
         canJump = true;
         lookingLeft = true;
         stoppingTime = false;
+
+        timeStopBarMax *= Time.fixedDeltaTime;
+        timeStopBar *= Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
@@ -148,10 +158,10 @@ public class PlatformPlayer : MonoBehaviour
             lastDirTrack.text = moveInput.x.ToString() + " " + moveInput.y.ToString() + " " + moveInput.magnitude;   
         }
 
-        dashTimer++;
-        dropDashTimer++;
+        dashTimer += Time.fixedDeltaTime;
+        dropDashTimer += Time.fixedDeltaTime;
 
-        if(dashTimer >= 10) {
+        if(dashTimer >= 10 * Time.fixedDeltaTime) {
             rb.useGravity = true;
         }
 
@@ -197,7 +207,7 @@ public class PlatformPlayer : MonoBehaviour
             tricking = false;
         }
         if(!manualing || (Mathf.Abs(rb.velocity.x) < 0.5f && !grinding)) {
-            manualTimer--;
+            manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
                 if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
@@ -208,10 +218,10 @@ public class PlatformPlayer : MonoBehaviour
             }
         }
         else {
-            manualTimer = 20;
+            manualTimer = 20 * Time.fixedDeltaTime;
         }
 
-        trickTimer--;
+        trickTimer -= Time.fixedDeltaTime;
         
         //timestop handling
         if(timeStopBar >= timeStopBarMax) {
@@ -219,10 +229,10 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         if(stoppingTime) {
-            timeStopBar--;
+            timeStopBar -= Time.fixedDeltaTime;
         }
         else if(!stoppingTime) {
-            timeStopBar += 0.5f;
+            timeStopBar += Time.fixedDeltaTime/2;
         }
         if(stoppingTime && timeStopBar <= 0) {
             stoppingTime = false;
@@ -286,6 +296,7 @@ public class PlatformPlayer : MonoBehaviour
             dropDashing = false;
             jumping = false;
             grinding = true;
+            dashCount = 2;
         }
     }
 
@@ -364,8 +375,32 @@ public class PlatformPlayer : MonoBehaviour
 
     public void TimeStop(InputAction.CallbackContext context) {
         if(context.started && timeStopBar > 0) {
-            Debug.Log("test");
             stoppingTime = !stoppingTime;
+        }
+    }
+
+    public void EffectHandler(string powerUp) {
+        switch(powerUp) {
+            case "JumpPu":
+                rb.AddForce(transform.up * 200f, ForceMode.VelocityChange);
+                
+                break;
+            case "DashPu":
+                dashCount += 1;
+
+                break;
+            case "TimePu":
+                timeStopBar = timeStopBarMax;
+
+                break;
+            case "HealthPu":
+                if(hp <= 3) {
+                    hp += 1;
+                }
+                
+                break;
+            default:
+                break;
         }
     }
 }
