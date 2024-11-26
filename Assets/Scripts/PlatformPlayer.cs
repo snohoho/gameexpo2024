@@ -14,6 +14,7 @@ public class PlatformPlayer : MonoBehaviour
     private Vector2 moveInput;
     private bool lookingLeft;
     public float currentSpeed;
+    private bool invuln;
 
     //hp handling
     public int hp = 3;
@@ -31,6 +32,7 @@ public class PlatformPlayer : MonoBehaviour
 
     //dash params
     [Header("Dash Params")]
+    [SerializeField] private GameObject dashHitbox;
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float dropDashSpeed = 50f;
     [SerializeField] public int dashCount = 2;
@@ -51,7 +53,7 @@ public class PlatformPlayer : MonoBehaviour
 
     //tricking params
     [Header("Tricking + Combos")]
-    [SerializeField] private int trickCooldown = 30;
+    [SerializeField] private float trickCooldown = 30;
     private float trickTimer = 0;
     private float manualTimer = 0;
     private bool tricking;
@@ -92,6 +94,7 @@ public class PlatformPlayer : MonoBehaviour
 
         timeStopBarMax *= Time.fixedDeltaTime;
         timeStopBar *= Time.fixedDeltaTime;
+        trickCooldown *= Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
@@ -162,6 +165,7 @@ public class PlatformPlayer : MonoBehaviour
         dropDashTimer += Time.fixedDeltaTime;
 
         if(dashTimer >= 10 * Time.fixedDeltaTime) {
+            dashHitbox.SetActive(false);
             rb.useGravity = true;
         }
 
@@ -268,7 +272,12 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
-        }    
+        }
+        if(col.gameObject.tag == "Enemy" && !invuln) {
+            hp--;
+            rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
+            StartCoroutine(InvulnFrames());
+        }
     }
 
     private void OnTriggerEnter(Collider col) {
@@ -338,6 +347,7 @@ public class PlatformPlayer : MonoBehaviour
             dropDashing = false;
             dashTimer = 0;
             dropDashTimer = 0;
+            dashHitbox.SetActive(true);
 
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
@@ -402,5 +412,28 @@ public class PlatformPlayer : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    IEnumerator InvulnFrames() {
+        invuln = true;
+        float elapsedTime = 0;
+        var meshRender = GetComponent<MeshRenderer>(); 
+
+        while(elapsedTime < 5f*Time.deltaTime) {
+            Debug.Log("pre yield");
+            meshRender.enabled = false;
+
+            yield return new WaitForSeconds(0.1f);
+
+            Debug.Log("post yield");
+            meshRender.enabled = true;
+
+            yield return new WaitForSeconds(0.1f);
+            
+            elapsedTime += Time.deltaTime;
+        }
+
+        meshRender.enabled = true;
+        invuln = false;
     }
 }
