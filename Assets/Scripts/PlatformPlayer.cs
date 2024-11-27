@@ -12,9 +12,9 @@ public class PlatformPlayer : MonoBehaviour
     //movement
     private Rigidbody rb;
     private Vector2 moveInput;
-    private bool lookingLeft;
+    private bool lookingRight;
     public float currentSpeed;
-    private bool invuln;
+    public bool invuln;
 
     //hp handling
     public int hp = 3;
@@ -49,7 +49,7 @@ public class PlatformPlayer : MonoBehaviour
     private float timeForFullSpline;
     private float elapsedTime;
     private Vector2 grindMoveInputStorage;
-    private float grindOffset = 1;
+    private float grindOffset = 1.825f;
 
     //tricking params
     [Header("Tricking + Combos")]
@@ -62,13 +62,14 @@ public class PlatformPlayer : MonoBehaviour
 
     //timestop params
     [Header("Time Stop")]
-    [SerializeField] private float timeStopBarMax = 300;
-    public float timeStopBar = 300;
+    [SerializeField] private float timeStopBarMax = 180;
+    public float timeStopBar = 180;
     public bool stoppingTime;
     
     //other
     [Header("Other Stuff")]
     [SerializeField] private Canvas inv;
+    [SerializeField] private GameObject model;
 
     //debug
     [Header("Debugging")]
@@ -89,7 +90,7 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         canJump = true;
-        lookingLeft = true;
+        lookingRight = true;
         stoppingTime = false;
 
         timeStopBarMax *= Time.fixedDeltaTime;
@@ -121,11 +122,13 @@ public class PlatformPlayer : MonoBehaviour
         //dir control
         if(moveInput.x > 0) {
             transform.localRotation = Quaternion.Euler(0,0,0);
-            lookingLeft = true;
+            lookingRight = true;
+            model.transform.localScale = new Vector3(1,1,1)/2;
         }
         if(moveInput.x < 0) {
             transform.localRotation  = Quaternion.Euler(0,-180,0);
-            lookingLeft = false;
+            lookingRight = false;
+            model.transform.localScale = new Vector3(1,1,-1)/2;
         }
         
         rb.velocity = new Vector3(velX, velY, 0);
@@ -179,11 +182,13 @@ public class PlatformPlayer : MonoBehaviour
                 if(jumping) {
                     if(grindMoveInputStorage.x > 0) {
                         transform.localRotation = Quaternion.Euler(0,0,0);
-                        lookingLeft = true;
+                        lookingRight = true;
+                        model.transform.localScale = new Vector3(1,1,1)/2;
                     }
                     if(grindMoveInputStorage.x < 0) {
                         transform.localRotation  = Quaternion.Euler(0,-180,0);
-                        lookingLeft = false;
+                        lookingRight = false;
+                        model.transform.localScale = new Vector3(1,1,-1)/2;
                     }
                     
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
@@ -197,7 +202,7 @@ public class PlatformPlayer : MonoBehaviour
             transform.position = railPos.toVector3() + transform.up*grindOffset;
             //transform.up += new Vector3(0,grindOffset,0);
 
-            if(lookingLeft) {
+            if(lookingRight) {
                 elapsedTime -= Time.fixedDeltaTime;
             }
             else {
@@ -275,6 +280,7 @@ public class PlatformPlayer : MonoBehaviour
         }
         if(col.gameObject.tag == "Enemy" && !invuln) {
             hp--;
+            grinding = false;
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
             StartCoroutine(InvulnFrames());
         }
@@ -416,24 +422,23 @@ public class PlatformPlayer : MonoBehaviour
 
     IEnumerator InvulnFrames() {
         invuln = true;
-        float elapsedTime = 0;
-        var meshRender = GetComponent<MeshRenderer>(); 
+        int count = 0;
 
-        while(elapsedTime < 5f*Time.deltaTime) {
+        while(count < 5) {
             Debug.Log("pre yield");
-            meshRender.enabled = false;
+            model.SetActive(false);
 
             yield return new WaitForSeconds(0.1f);
 
             Debug.Log("post yield");
-            meshRender.enabled = true;
+            model.SetActive(true);
 
             yield return new WaitForSeconds(0.1f);
             
-            elapsedTime += Time.deltaTime;
+            count++;
         }
 
-        meshRender.enabled = true;
+        model.SetActive(true);
         invuln = false;
     }
 }
