@@ -6,7 +6,7 @@ public class EnemyBaller : MonoBehaviour
 {
     private Rigidbody rb;
     private float jumpHeight = 20f;
-    private float tossForce = 30f;
+    private float tossForce = 20f;
 
     public bool colliding;
     private bool stopped;
@@ -83,7 +83,7 @@ public class EnemyBaller : MonoBehaviour
 
             ballRb = newBall.GetComponent<Rigidbody>();
             ballRb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ;
-            ballRb.AddForce(transform.right * tossForce + transform.up * tossForce, ForceMode.VelocityChange);    
+            ballRb.AddForce(transform.right * tossForce + new Vector3(0,2.5f,0) * tossForce, ForceMode.VelocityChange);    
         }
     }
 
