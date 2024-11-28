@@ -7,7 +7,7 @@ public class EnemyHitboxController : MonoBehaviour
     public bool colliding;
 
     private void OnTriggerEnter(Collider col) {
-        if(col.gameObject.tag == "PlayerHitbox" || col.gameObject.tag == "DashHitbox") {
+        if(col.gameObject.tag == "GrindBox") {
             Debug.Log("hitbox contact");
             colliding = true;
         }
