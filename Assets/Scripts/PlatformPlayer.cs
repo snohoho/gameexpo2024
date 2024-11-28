@@ -82,6 +82,12 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private TextMeshPro manualTimerTrack;
     [SerializeField] private TextMeshPro timeStopBarTrack;
 
+    void Awake() {
+        timeStopBarMax *= Time.fixedDeltaTime;
+        timeStopBar *= Time.fixedDeltaTime;
+        trickCooldown *= Time.fixedDeltaTime;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -92,10 +98,6 @@ public class PlatformPlayer : MonoBehaviour
         canJump = true;
         lookingRight = true;
         stoppingTime = false;
-
-        timeStopBarMax *= Time.fixedDeltaTime;
-        timeStopBar *= Time.fixedDeltaTime;
-        trickCooldown *= Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
@@ -219,7 +221,7 @@ public class PlatformPlayer : MonoBehaviour
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
-                if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && !grinding) {
                     //Debug.Log("not manualing while on ground end combo");
                     comboMeter = 0;
                 }
@@ -241,7 +243,7 @@ public class PlatformPlayer : MonoBehaviour
             timeStopBar -= Time.fixedDeltaTime;
         }
         else if(!stoppingTime) {
-            timeStopBar += Time.fixedDeltaTime/2;
+            timeStopBar += Time.fixedDeltaTime/3;
         }
         if(stoppingTime && timeStopBar <= 0) {
             stoppingTime = false;
@@ -263,7 +265,7 @@ public class PlatformPlayer : MonoBehaviour
             Debug.Log("floor contact");
             canJump = true;
             dashCount = 2;
-            if(!manualing) {
+            if(!manualing && !grinding) {
                 comboMeter = 0;
             }
             
@@ -375,12 +377,13 @@ public class PlatformPlayer : MonoBehaviour
 
             //cast a ray down. if it hits the ground then enter a manual
             RaycastHit ray;
-            if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+            if(Physics.Raycast(transform.position, -transform.up, out ray, 2f)) {
                 Debug.Log("maunal");
                 manualing = true;
             }
         }
         if(context.performed) {
+            Debug.Log("hold manual");
             manualing = true;
         }
         if(context.canceled) {
@@ -411,7 +414,7 @@ public class PlatformPlayer : MonoBehaviour
                 break;
             case "HealthPu":
                 if(hp <= 3) {
-                    hp += 1;
+                    hp++;
                 }
                 
                 break;
@@ -425,12 +428,10 @@ public class PlatformPlayer : MonoBehaviour
         int count = 0;
 
         while(count < 5) {
-            Debug.Log("pre yield");
             model.SetActive(false);
 
             yield return new WaitForSeconds(0.1f);
 
-            Debug.Log("post yield");
             model.SetActive(true);
 
             yield return new WaitForSeconds(0.1f);
