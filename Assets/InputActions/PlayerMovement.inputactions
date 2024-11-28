@@ -34,12 +34,12 @@
                 },
                 {
                     "name": "Trick",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "8d1886fd-b88a-439b-9dec-f921c5e3736f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Inventory",

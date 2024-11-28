@@ -13,9 +13,6 @@ TagManager:
   - DashPu
   - TimePu
   - HealthPu
-  - Enemy
-  - DashHitbox
-  - PlayerHitbox
   layers:
   - Default
   - TransparentFX
