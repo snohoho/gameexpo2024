@@ -34,7 +34,6 @@ public class PlatformPlayer : MonoBehaviour
 
     //dash params
     [Header("Dash Params")]
-    [SerializeField] private GameObject dashHitbox;
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float dropDashSpeed = 50f;
     [SerializeField] public int dashCount = 2;
@@ -51,11 +50,11 @@ public class PlatformPlayer : MonoBehaviour
     private float timeForFullSpline;
     private float elapsedTime;
     private Vector2 grindMoveInputStorage;
-    private float grindOffset = 1.825f;
+    private float grindOffset = 1;
 
     //tricking params
     [Header("Tricking + Combos")]
-    [SerializeField] private float trickCooldown = 30;
+    [SerializeField] private int trickCooldown = 30;
     private float trickTimer = 0;
     private float manualTimer = 0;
     public bool tricking;
@@ -64,8 +63,8 @@ public class PlatformPlayer : MonoBehaviour
 
     //timestop params
     [Header("Time Stop")]
-    [SerializeField] private float timeStopBarMax = 180;
-    public float timeStopBar = 180;
+    [SerializeField] private float timeStopBarMax = 300;
+    public float timeStopBar = 300;
     public bool stoppingTime;
     
     //other
@@ -83,12 +82,6 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private TextMeshPro manualTimerTrack;
     [SerializeField] private TextMeshPro timeStopBarTrack;
 
-    void Awake() {
-        timeStopBarMax *= Time.fixedDeltaTime;
-        timeStopBar *= Time.fixedDeltaTime;
-        trickCooldown *= Time.fixedDeltaTime;
-    }
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -98,8 +91,11 @@ public class PlatformPlayer : MonoBehaviour
         animHandler = GetComponent<PlayerAnimationHandler>();
 
         canJump = true;
-        lookingRight = true;
+        lookingLeft = true;
         stoppingTime = false;
+
+        timeStopBarMax *= Time.fixedDeltaTime;
+        timeStopBar *= Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
@@ -176,7 +172,6 @@ public class PlatformPlayer : MonoBehaviour
         dropDashTimer += Time.fixedDeltaTime;
 
         if(dashTimer >= 10 * Time.fixedDeltaTime) {
-            dashHitbox.SetActive(false);
             rb.useGravity = true;
         }
 
@@ -210,7 +205,7 @@ public class PlatformPlayer : MonoBehaviour
             transform.position = railPos.toVector3() + transform.up*grindOffset;
             //transform.up += new Vector3(0,grindOffset,0);
 
-            if(lookingRight) {
+            if(lookingLeft) {
                 elapsedTime -= Time.fixedDeltaTime;
             }
             else {
@@ -227,7 +222,7 @@ public class PlatformPlayer : MonoBehaviour
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
-                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && !grinding) {
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
                     //Debug.Log("not manualing while on ground end combo");
                     comboMeter = 0;
                 }
@@ -249,7 +244,7 @@ public class PlatformPlayer : MonoBehaviour
             timeStopBar -= Time.fixedDeltaTime;
         }
         else if(!stoppingTime) {
-            timeStopBar += Time.fixedDeltaTime/3;
+            timeStopBar += Time.fixedDeltaTime/2;
         }
         if(stoppingTime && timeStopBar <= 0) {
             stoppingTime = false;
@@ -271,7 +266,7 @@ public class PlatformPlayer : MonoBehaviour
             Debug.Log("floor contact");
             canJump = true;
             dashCount = 2;
-            if(!manualing && !grinding) {
+            if(!manualing) {
                 comboMeter = 0;
             }
             
@@ -285,13 +280,7 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
-        }
-        if(col.gameObject.tag == "Enemy" && !invuln) {
-            hp--;
-            grinding = false;
-            rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
-            StartCoroutine(InvulnFrames());
-        }
+        }    
     }
 
     private void OnTriggerEnter(Collider col) {
@@ -361,7 +350,6 @@ public class PlatformPlayer : MonoBehaviour
             dropDashing = false;
             dashTimer = 0;
             dropDashTimer = 0;
-            dashHitbox.SetActive(true);
 
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
@@ -383,13 +371,12 @@ public class PlatformPlayer : MonoBehaviour
 
             //cast a ray down. if it hits the ground then enter a manual
             RaycastHit ray;
-            if(Physics.Raycast(transform.position, -transform.up, out ray, 2f)) {
+            if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
                 Debug.Log("maunal");
                 manualing = true;
             }
         }
         if(context.performed) {
-            Debug.Log("hold manual");
             manualing = true;
         }
         if(context.canceled) {
@@ -420,7 +407,7 @@ public class PlatformPlayer : MonoBehaviour
                 break;
             case "HealthPu":
                 if(hp <= 3) {
-                    hp++;
+                    hp += 1;
                 }
                 
                 break;
