@@ -11,10 +11,12 @@ public class PlatformPlayer : MonoBehaviour
 {
     //movement
     private Rigidbody rb;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
+    private PlayerAnimationHandler animHandler;
     private bool lookingRight;
     public float currentSpeed;
     public bool invuln;
+    public bool dead;
 
     //hp handling
     public int hp = 3;
@@ -28,7 +30,7 @@ public class PlatformPlayer : MonoBehaviour
     [Header("Jump Params")]
     [SerializeField] private float jumpHeight = 25f;
     private bool canJump;
-    private bool jumping;
+    public bool jumping;
 
     //dash params
     [Header("Dash Params")]
@@ -44,7 +46,7 @@ public class PlatformPlayer : MonoBehaviour
     //grinding params
     [Header("Grinding")]
     [SerializeField] private GameObject grindBox;
-    private bool grinding;
+    public bool grinding;
     private GrindRail currentRail;
     private float timeForFullSpline;
     private float elapsedTime;
@@ -56,8 +58,8 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private float trickCooldown = 30;
     private float trickTimer = 0;
     private float manualTimer = 0;
-    private bool tricking;
-    private bool manualing;
+    public bool tricking;
+    public bool manualing;
     public int comboMeter;
 
     //timestop params
@@ -69,7 +71,6 @@ public class PlatformPlayer : MonoBehaviour
     //other
     [Header("Other Stuff")]
     [SerializeField] private Canvas inv;
-    [SerializeField] private GameObject model;
 
     //debug
     [Header("Debugging")]
@@ -94,6 +95,7 @@ public class PlatformPlayer : MonoBehaviour
         if (rb == null) {
             throw new System.Exception("Object doesn't have rigidbody");
         }
+        animHandler = GetComponent<PlayerAnimationHandler>();
 
         canJump = true;
         lookingRight = true;
@@ -102,6 +104,10 @@ public class PlatformPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(hp <= 0) {
+            dead = true;
+        }
+
         rb.AddForce(new Vector3(moveInput.x, 0, 0).normalized * acceleration, ForceMode.Acceleration);
         var velX = rb.velocity.x;
         var velY = rb.velocity.y;
@@ -125,12 +131,12 @@ public class PlatformPlayer : MonoBehaviour
         if(moveInput.x > 0) {
             transform.localRotation = Quaternion.Euler(0,0,0);
             lookingRight = true;
-            model.transform.localScale = new Vector3(1,1,1)/2;
+            animHandler.model.transform.localScale = new Vector3(1,1,1)/2;
         }
         if(moveInput.x < 0) {
             transform.localRotation  = Quaternion.Euler(0,-180,0);
             lookingRight = false;
-            model.transform.localScale = new Vector3(1,1,-1)/2;
+            animHandler.model.transform.localScale = new Vector3(1,1,-1)/2;
         }
         
         rb.velocity = new Vector3(velX, velY, 0);
@@ -185,12 +191,12 @@ public class PlatformPlayer : MonoBehaviour
                     if(grindMoveInputStorage.x > 0) {
                         transform.localRotation = Quaternion.Euler(0,0,0);
                         lookingRight = true;
-                        model.transform.localScale = new Vector3(1,1,1)/2;
+                        animHandler.model.transform.localScale = new Vector3(1,1,1)/2;
                     }
                     if(grindMoveInputStorage.x < 0) {
                         transform.localRotation  = Quaternion.Euler(0,-180,0);
                         lookingRight = false;
-                        model.transform.localScale = new Vector3(1,1,-1)/2;
+                        animHandler.model.transform.localScale = new Vector3(1,1,-1)/2;
                     }
                     
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
@@ -426,20 +432,21 @@ public class PlatformPlayer : MonoBehaviour
     IEnumerator InvulnFrames() {
         invuln = true;
         int count = 0;
+        GameObject model = animHandler.model;
 
         while(count < 5) {
-            model.SetActive(false);
+            animHandler.model.SetActive(false);
 
             yield return new WaitForSeconds(0.1f);
 
-            model.SetActive(true);
+            animHandler.model.SetActive(true);
 
             yield return new WaitForSeconds(0.1f);
             
             count++;
         }
 
-        model.SetActive(true);
+        animHandler.model.SetActive(true);
         invuln = false;
     }
 }
