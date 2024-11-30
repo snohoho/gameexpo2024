@@ -34,7 +34,7 @@ public class PlatformPlayer : MonoBehaviour
 
     //dash params
     [Header("Dash Params")]
-    [SerializeField] private GameObject dashHitbox;
+    [SerializeField] public GameObject dashHitbox;
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float dropDashSpeed = 50f;
     [SerializeField] public int dashCount = 2;
@@ -288,6 +288,7 @@ public class PlatformPlayer : MonoBehaviour
         }
         if(col.gameObject.tag == "Enemy" && !invuln) {
             hp--;
+            comboMeter = 0;
             grinding = false;
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
             StartCoroutine(InvulnFrames());
