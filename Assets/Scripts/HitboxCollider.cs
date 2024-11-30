@@ -12,7 +12,9 @@ public class HitboxCollider : MonoBehaviour
             transform.parent.GetComponent<PlatformPlayer>().comboMeter++;
 
             var rb = transform.parent.GetComponent<Rigidbody>();
-            rb.AddForce(transform.up * 50f, ForceMode.VelocityChange); 
+            if(!transform.parent.GetComponent<PlatformPlayer>().dashHitbox.activeSelf) {
+                rb.AddForce(transform.parent.up * 50f, ForceMode.VelocityChange); 
+            }
         }
     }
 }

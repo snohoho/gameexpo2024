@@ -8,7 +8,7 @@ public class EnemyHitboxController : MonoBehaviour
 
     private void OnTriggerEnter(Collider col) {
         if(col.gameObject.tag == "PlayerHitbox" || col.gameObject.tag == "DashHitbox") {
-            Debug.Log("hitbox contact");
+            Debug.Log("enemy hurt");
             colliding = true;
         }
     }
