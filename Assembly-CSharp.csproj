@@ -65,14 +65,22 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\TransitionManager.cs" />
+    <Compile Include="Assets\Scripts\EnemyCircleFlier.cs" />
+    <Compile Include="Assets\Scripts\HitboxCollider.cs" />
+    <Compile Include="Assets\Scripts\TitleRotation.cs" />
     <Compile Include="Assets\Scripts\ObjectManager.cs" />
+    <Compile Include="Assets\Scripts\EnemyBaller.cs" />
     <Compile Include="Assets\Scripts\PlayerCam.cs" />
     <Compile Include="Assets\Scripts\PlatformPlayer.cs" />
     <Compile Include="Assets\Scripts\EnemyHitboxController.cs" />
     <Compile Include="Assets\Scripts\Vector3Extensions.cs" />
+    <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
+    <Compile Include="Assets\Scripts\UIHandler.cs" />
     <Compile Include="Assets\Scripts\GrindBoxCollider.cs" />
     <Compile Include="Assets\Scripts\InventoryHandler.cs" />
     <Compile Include="Assets\Scripts\EnemyPatroller.cs" />
+    <Compile Include="Assets\Scripts\EnemyBaseballLauncher.cs" />
     <Compile Include="Assets\Scripts\GrindRail.cs" />
   </ItemGroup>
   <ItemGroup>

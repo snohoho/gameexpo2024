@@ -31,8 +31,11 @@ public class EnemyPatroller : MonoBehaviour
 
         stopped = transform.parent.parent.GetComponent<ObjectManager>().stoppingTime;
         if(stopped) {
-            rb.velocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
+        }
+        else {
+            rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         }
 
         if(lookingLeft) {
