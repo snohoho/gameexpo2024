@@ -11,9 +11,12 @@ public class PlatformPlayer : MonoBehaviour
 {
     //movement
     private Rigidbody rb;
-    private Vector2 moveInput;
-    private bool lookingLeft;
+    public Vector2 moveInput;
+    private PlayerAnimationHandler animHandler;
+    private bool lookingRight;
     public float currentSpeed;
+    public bool invuln;
+    public bool dead;
 
     //hp handling
     public int hp = 3;
@@ -27,10 +30,11 @@ public class PlatformPlayer : MonoBehaviour
     [Header("Jump Params")]
     [SerializeField] private float jumpHeight = 25f;
     private bool canJump;
-    private bool jumping;
+    public bool jumping;
 
     //dash params
     [Header("Dash Params")]
+    [SerializeField] public GameObject dashHitbox;
     [SerializeField] private float dashSpeed = 50f;
     [SerializeField] private float dropDashSpeed = 50f;
     [SerializeField] public int dashCount = 2;
@@ -42,26 +46,26 @@ public class PlatformPlayer : MonoBehaviour
     //grinding params
     [Header("Grinding")]
     [SerializeField] private GameObject grindBox;
-    private bool grinding;
+    public bool grinding;
     private GrindRail currentRail;
     private float timeForFullSpline;
     private float elapsedTime;
     private Vector2 grindMoveInputStorage;
-    private float grindOffset = 1;
+    private float grindOffset = 1.825f;
 
     //tricking params
     [Header("Tricking + Combos")]
-    [SerializeField] private int trickCooldown = 30;
+    [SerializeField] private float trickCooldown = 30;
     private float trickTimer = 0;
     private float manualTimer = 0;
-    private bool tricking;
-    private bool manualing;
+    public bool tricking;
+    public bool manualing;
     public int comboMeter;
 
     //timestop params
     [Header("Time Stop")]
-    [SerializeField] private float timeStopBarMax = 300;
-    public float timeStopBar = 300;
+    [SerializeField] private float timeStopBarMax = 180;
+    public float timeStopBar = 180;
     public bool stoppingTime;
     
     //other
@@ -79,23 +83,31 @@ public class PlatformPlayer : MonoBehaviour
     [SerializeField] private TextMeshPro manualTimerTrack;
     [SerializeField] private TextMeshPro timeStopBarTrack;
 
+    void Awake() {
+        timeStopBarMax *= Time.fixedDeltaTime;
+        timeStopBar *= Time.fixedDeltaTime;
+        trickCooldown *= Time.fixedDeltaTime;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         if (rb == null) {
             throw new System.Exception("Object doesn't have rigidbody");
         }
+        animHandler = GetComponent<PlayerAnimationHandler>();
 
         canJump = true;
-        lookingLeft = true;
+        lookingRight = true;
         stoppingTime = false;
-
-        timeStopBarMax *= Time.fixedDeltaTime;
-        timeStopBar *= Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
     {
+        if(hp <= 0) {
+            dead = true;
+        }
+
         rb.AddForce(new Vector3(moveInput.x, 0, 0).normalized * acceleration, ForceMode.Acceleration);
         var velX = rb.velocity.x;
         var velY = rb.velocity.y;
@@ -118,11 +130,13 @@ public class PlatformPlayer : MonoBehaviour
         //dir control
         if(moveInput.x > 0) {
             transform.localRotation = Quaternion.Euler(0,0,0);
-            lookingLeft = true;
+            lookingRight = true;
+            animHandler.model.transform.localScale = new Vector3(1,1,1)/2;
         }
         if(moveInput.x < 0) {
             transform.localRotation  = Quaternion.Euler(0,-180,0);
-            lookingLeft = false;
+            lookingRight = false;
+            animHandler.model.transform.localScale = new Vector3(1,1,-1)/2;
         }
         
         rb.velocity = new Vector3(velX, velY, 0);
@@ -162,6 +176,7 @@ public class PlatformPlayer : MonoBehaviour
         dropDashTimer += Time.fixedDeltaTime;
 
         if(dashTimer >= 10 * Time.fixedDeltaTime) {
+            dashHitbox.SetActive(false);
             rb.useGravity = true;
         }
 
@@ -175,11 +190,13 @@ public class PlatformPlayer : MonoBehaviour
                 if(jumping) {
                     if(grindMoveInputStorage.x > 0) {
                         transform.localRotation = Quaternion.Euler(0,0,0);
-                        lookingLeft = true;
+                        lookingRight = true;
+                        animHandler.model.transform.localScale = new Vector3(1,1,1)/2;
                     }
                     if(grindMoveInputStorage.x < 0) {
                         transform.localRotation  = Quaternion.Euler(0,-180,0);
-                        lookingLeft = false;
+                        lookingRight = false;
+                        animHandler.model.transform.localScale = new Vector3(1,1,-1)/2;
                     }
                     
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
@@ -193,7 +210,7 @@ public class PlatformPlayer : MonoBehaviour
             transform.position = railPos.toVector3() + transform.up*grindOffset;
             //transform.up += new Vector3(0,grindOffset,0);
 
-            if(lookingLeft) {
+            if(lookingRight) {
                 elapsedTime -= Time.fixedDeltaTime;
             }
             else {
@@ -210,7 +227,7 @@ public class PlatformPlayer : MonoBehaviour
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
-                if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && !grinding) {
                     //Debug.Log("not manualing while on ground end combo");
                     comboMeter = 0;
                 }
@@ -232,7 +249,7 @@ public class PlatformPlayer : MonoBehaviour
             timeStopBar -= Time.fixedDeltaTime;
         }
         else if(!stoppingTime) {
-            timeStopBar += Time.fixedDeltaTime/2;
+            timeStopBar += Time.fixedDeltaTime/3;
         }
         if(stoppingTime && timeStopBar <= 0) {
             stoppingTime = false;
@@ -254,7 +271,7 @@ public class PlatformPlayer : MonoBehaviour
             Debug.Log("floor contact");
             canJump = true;
             dashCount = 2;
-            if(!manualing) {
+            if(!manualing && !grinding) {
                 comboMeter = 0;
             }
             
@@ -268,7 +285,14 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
-        }    
+        }
+        if(col.gameObject.tag == "Enemy" && !invuln) {
+            hp--;
+            comboMeter = 0;
+            grinding = false;
+            rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
+            StartCoroutine(InvulnFrames());
+        }
     }
 
     private void OnTriggerEnter(Collider col) {
@@ -338,6 +362,7 @@ public class PlatformPlayer : MonoBehaviour
             dropDashing = false;
             dashTimer = 0;
             dropDashTimer = 0;
+            dashHitbox.SetActive(true);
 
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
@@ -359,12 +384,13 @@ public class PlatformPlayer : MonoBehaviour
 
             //cast a ray down. if it hits the ground then enter a manual
             RaycastHit ray;
-            if(Physics.Raycast(transform.position, -transform.up, out ray, 1f)) {
+            if(Physics.Raycast(transform.position, -transform.up, out ray, 2f)) {
                 Debug.Log("maunal");
                 manualing = true;
             }
         }
         if(context.performed) {
+            Debug.Log("hold manual");
             manualing = true;
         }
         if(context.canceled) {
@@ -395,12 +421,33 @@ public class PlatformPlayer : MonoBehaviour
                 break;
             case "HealthPu":
                 if(hp <= 3) {
-                    hp += 1;
+                    hp++;
                 }
                 
                 break;
             default:
                 break;
         }
+    }
+
+    IEnumerator InvulnFrames() {
+        invuln = true;
+        int count = 0;
+        GameObject model = animHandler.model;
+
+        while(count < 5) {
+            animHandler.model.SetActive(false);
+
+            yield return new WaitForSeconds(0.1f);
+
+            animHandler.model.SetActive(true);
+
+            yield return new WaitForSeconds(0.1f);
+            
+            count++;
+        }
+
+        animHandler.model.SetActive(true);
+        invuln = false;
     }
 }
