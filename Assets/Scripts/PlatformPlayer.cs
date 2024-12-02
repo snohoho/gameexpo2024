@@ -104,6 +104,10 @@ public class PlatformPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(hp <= 0) {
             dead = true;
         }

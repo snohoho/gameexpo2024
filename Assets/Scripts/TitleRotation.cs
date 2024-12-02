@@ -11,7 +11,7 @@ public class TitleRotation : MonoBehaviour
 
     void Update()
     {
-        float rot = Mathf.SmoothStep(minRot, maxRot, Mathf.PingPong(Time.time * rotSpd, 1));
+        float rot = Mathf.SmoothStep(minRot, maxRot, Mathf.PingPong(Time.unscaledTime * rotSpd, 1));
 		transform.rotation = Quaternion.Euler(0,0,rot);
     }
 }
