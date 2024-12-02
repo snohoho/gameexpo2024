@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\HitboxCollider.cs" />
     <Compile Include="Assets\Scripts\TitleRotation.cs" />
     <Compile Include="Assets\Scripts\ObjectManager.cs" />
+    <Compile Include="Assets\Scripts\LevelSelectAnimator.cs" />
     <Compile Include="Assets\Scripts\EnemyBaller.cs" />
     <Compile Include="Assets\Scripts\PlayerCam.cs" />
     <Compile Include="Assets\Scripts\PlatformPlayer.cs" />
