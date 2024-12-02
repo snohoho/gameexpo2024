@@ -29,7 +29,7 @@ public class PlatformPlayer : MonoBehaviour
     //jump params
     [Header("Jump Params")]
     [SerializeField] private float jumpHeight = 25f;
-    private bool canJump;
+    public bool canJump;
     public bool jumping;
 
     //dash params
