@@ -11,8 +11,12 @@ public class TransitionManager : MonoBehaviour
         StartCoroutine(TransitionTimer("TestScene"));
     }
 
-    public void LevelSelect() {
-        //StartCoroutine(TransitionTimer("TestScene"));
+    public void RestartLevel() {
+        StartCoroutine(TransitionTimer(SceneManager.GetActiveScene().name));
+    }
+
+    public void FromLevelSelect(string level) {
+        StartCoroutine(TransitionTimer(level));
     }
 
     public void MainMenu() {
@@ -21,6 +25,10 @@ public class TransitionManager : MonoBehaviour
 
     public void QuitGame() {
         StartCoroutine(TransitionTimer("Quit"));
+    }
+
+    public void NextLevel(string level) {
+        StartCoroutine(TransitionTimer(level));
     }
 
     public void OnDeath() {
