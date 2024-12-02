@@ -17,9 +17,10 @@ public class PlayerAnimationHandler : MonoBehaviour
     private bool manualing;
     private bool takingHit;
     private bool dead;
+    private bool inAir;
 
     void Start() {
-        player = transform.parent.GetComponent<PlatformPlayer>();
+        player = GetComponent<PlatformPlayer>();
 
         jumping = player.jumping;
         dashing = player.dashing;
@@ -29,6 +30,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         manualing = player.manualing;
         takingHit = player.invuln;
         dead = player.dead;
+        inAir = player.canJump;
     }
 
     void Update()
@@ -41,12 +43,15 @@ public class PlayerAnimationHandler : MonoBehaviour
         manualing = player.manualing;
         takingHit = player.invuln;
         dead = player.dead;
+        inAir = player.canJump;
 
-        if(player.moveInput.x != 0) {
+        if (player.moveInput.x != 0) {
             animator.SetBool("moving", true);
+            Debug.Log("Moving now");
         }
         else {
             animator.SetBool("moving", false);
+            Debug.Log("Stopped Moving");
         }
 
         animator.SetBool("jumping", jumping);
@@ -57,5 +62,6 @@ public class PlayerAnimationHandler : MonoBehaviour
         animator.SetBool("manualing", manualing);
         animator.SetBool("takingHit", takingHit);
         animator.SetBool("dead", dead);
+        animator.SetBool("inAir", !inAir);
     }
 }

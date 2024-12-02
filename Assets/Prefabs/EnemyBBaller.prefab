@@ -269,6 +269,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basketball
       objectReference: {fileID: 0}
+    - target: {fileID: 3318473798357424423, guid: b221c14da9f55e24282e023b4efd273d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 80c3f7454b306ac4bb4191d0b1b3f6a3, type: 2}
     - target: {fileID: 5028166914352513899, guid: b221c14da9f55e24282e023b4efd273d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.14
