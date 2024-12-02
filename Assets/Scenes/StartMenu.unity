@@ -1896,6 +1896,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a29bf8ffe9cdc4b87e65a2b12bca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotSpd: 0.25
+  minRot: -2.5
+  maxRot: 2.5
 --- !u!1001 &1560474612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2490,7 +2493,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1560474613}
         m_TargetAssemblyTypeName: TransitionManager, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2598,7 +2601,7 @@ MonoBehaviour:
   m_text: START
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c7a4c3a187b9d6448f2eee4149d19bb, type: 2}
-  m_sharedMaterial: {fileID: -5041143295826795024, guid: 4c7a4c3a187b9d6448f2eee4149d19bb, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 10b3dcbbe147f744a94e09dba0f121da, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

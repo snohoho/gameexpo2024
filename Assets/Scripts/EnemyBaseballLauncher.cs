@@ -32,6 +32,10 @@ public class EnemyBaseballLauncher : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(hurtbox.GetComponent<EnemyHitboxController>().colliding == true && !destroyingBalls) {
             StartCoroutine(RemoveBalls());
         }

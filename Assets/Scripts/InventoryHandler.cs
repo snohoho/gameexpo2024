@@ -46,6 +46,10 @@ public class InventoryHandler : MonoBehaviour
 
     void Update()
     {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(inInv) {
             inventory.SetActive(true);
             jumpPu.SetActive(hasJump);
