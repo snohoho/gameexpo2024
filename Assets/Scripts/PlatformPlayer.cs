@@ -17,6 +17,7 @@ public class PlatformPlayer : MonoBehaviour
     public float currentSpeed;
     public bool invuln;
     public bool dead;
+    public bool levelComplete;
 
     //hp handling
     public int hp = 3;
@@ -29,7 +30,7 @@ public class PlatformPlayer : MonoBehaviour
     //jump params
     [Header("Jump Params")]
     [SerializeField] private float jumpHeight = 25f;
-    private bool canJump;
+    public bool canJump;
     public bool jumping;
 
     //dash params
@@ -61,6 +62,7 @@ public class PlatformPlayer : MonoBehaviour
     public bool tricking;
     public bool manualing;
     public int comboMeter;
+    public int maxCombo;
 
     //timestop params
     [Header("Time Stop")]
@@ -104,6 +106,10 @@ public class PlatformPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(hp <= 0) {
             dead = true;
         }
@@ -239,6 +245,10 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         trickTimer -= Time.fixedDeltaTime;
+
+        if(comboMeter > maxCombo) {
+            maxCombo = comboMeter;
+        }
         
         //timestop handling
         if(timeStopBar >= timeStopBarMax) {
@@ -322,6 +332,10 @@ public class PlatformPlayer : MonoBehaviour
             grinding = true;
             dashCount = 2;
         }
+
+        if(col.gameObject.tag == "EndPoint") {
+            levelComplete = true;
+        }
     }
 
     private void OnTriggerExit(Collider col) {
@@ -367,7 +381,7 @@ public class PlatformPlayer : MonoBehaviour
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
             RaycastHit ray;
-            if(!Physics.Raycast(transform.position, -transform.up, out ray, 1f) || moveInput.y > 0) {
+            if(!Physics.Raycast(transform.position, -transform.up, out ray, 2f) || moveInput.y > 0) {
                 Debug.Log("update dash");
                 dashCount--;
             }
@@ -420,7 +434,7 @@ public class PlatformPlayer : MonoBehaviour
 
                 break;
             case "HealthPu":
-                if(hp <= 3) {
+                if(hp < 3) {
                     hp++;
                 }
                 

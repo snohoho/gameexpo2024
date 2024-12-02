@@ -32,6 +32,10 @@ public class EnemyBaller : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(hurtbox.GetComponent<EnemyHitboxController>().colliding == true) {
             if(newBall != null) {
                 Destroy(newBall);
