@@ -46,7 +46,7 @@ public class InventoryHandler : MonoBehaviour
 
     void Update()
     {
-        if(transform.parent.GetComponent<ObjectManager>().gamePaused) {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused || player.GetComponent<PlatformPlayer>().levelComplete) {
             return;
         }
 

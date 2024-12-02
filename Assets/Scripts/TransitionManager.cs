@@ -23,6 +23,11 @@ public class TransitionManager : MonoBehaviour
         StartCoroutine(TransitionTimer("Quit"));
     }
 
+    public void OnDeath() {
+        transition.ResetTrigger("TransitionEnd");
+        StartCoroutine(TransitionTimer("Death"));
+    }
+
     IEnumerator TransitionTimer(string sceneToLoad) {
         transition.SetTrigger("TransitionStart");
 
@@ -32,6 +37,11 @@ public class TransitionManager : MonoBehaviour
         
         if(sceneToLoad == "Quit") {
             Application.Quit();
+        }
+
+        if(sceneToLoad == "Death") {
+            transition.SetTrigger("TransitionEnd");
+            yield break;
         }
 
         Time.timeScale = 1.0f;

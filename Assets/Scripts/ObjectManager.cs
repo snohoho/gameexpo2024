@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private GameObject player; 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private Animator pauseAnimator;
+    [SerializeField] private Transform startPos;
+    [SerializeField] private GameObject transition;
+    [SerializeField] private GameObject screenUI;
+    [SerializeField] private GameObject finalStats;
     public bool stoppingTime;
     public int hp;
     public float timeStopBar;
     public int comboMeter;
     public bool gamePaused;
+    public bool blah;
 
     void Awake() {
         hp = player.GetComponent<PlatformPlayer>().hp;
@@ -25,11 +32,28 @@ public class ObjectManager : MonoBehaviour
 
     void Start() {
         gamePaused = false;
+        blah = false;
         pauseMenu.SetActive(false);
+        finalStats.SetActive(false);
     }
 
     void Update()
     {
+        if(player.GetComponent<PlatformPlayer>().levelComplete) {
+            finalStats.SetActive(true);
+            Time.timeScale = 0f;
+            var statText = finalStats.transform.GetChild(0).GetChild(0);
+            statText.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "final time:\n" + screenUI.GetComponent<UIHandler>().timerText.text;
+            statText.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "max combo:\n" + player.GetComponent<PlatformPlayer>().maxCombo.ToString();
+
+            if(!blah) {
+                blah = true;
+                pauseAnimator.SetTrigger("openPause");
+            }
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+
         if(gamePaused) {
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
@@ -37,6 +61,13 @@ public class ObjectManager : MonoBehaviour
             pauseAnimator.SetTrigger("openPause");
             Cursor.lockState = CursorLockMode.None;
             return;
+        }
+
+        if(player.GetComponent<PlatformPlayer>().dead) {
+            transition.GetComponent<TransitionManager>().OnDeath();
+            player.GetComponent<PlatformPlayer>().hp = 3;
+            player.GetComponent<PlatformPlayer>().dead = false;
+            player.transform.position = startPos.position;
         }
 
         stoppingTime = player.GetComponent<PlatformPlayer>().stoppingTime;
