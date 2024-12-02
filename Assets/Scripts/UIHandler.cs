@@ -15,10 +15,9 @@ public class UIHandler : MonoBehaviour
 
     [SerializeField] private GameObject hpPanel;
     private GameObject[] hpUi = new GameObject[3];
-    private int activeCount = 3;
 
     [SerializeField] private GameObject timer;
-    private TextMeshProUGUI timerText; 
+    public TextMeshProUGUI timerText; 
     private float time;
 
     void Start()
@@ -47,18 +46,25 @@ public class UIHandler : MonoBehaviour
         }
 
         int hp = transform.parent.GetComponent<ObjectManager>().hp;
-        if(hp < 3) {
-            if(!hpUi[hp-1].activeSelf && hp > activeCount) {
-                hpUi[hp-1].SetActive(true);
-                activeCount++;
-            }
-            else if(hpUi[hp].activeSelf) {
-                hpUi[hp].SetActive(false);
-                activeCount--;
-            }
+        if(hp == 3) {
+            hpUi[0].SetActive(true);
+            hpUi[1].SetActive(true);
+            hpUi[2].SetActive(true);
         }
-        else if(!hpUi[hp-1].activeSelf && hp == 3) {
-            hpUi[hp-1].SetActive(true);
+        else if(hp == 2) {
+            hpUi[0].SetActive(true);
+            hpUi[1].SetActive(true);
+            hpUi[2].SetActive(false);
+        }
+        else if(hp == 1) {
+            hpUi[0].SetActive(true);
+            hpUi[1].SetActive(false);
+            hpUi[2].SetActive(false);
+        }
+        else {
+            hpUi[0].SetActive(false);
+            hpUi[1].SetActive(false);
+            hpUi[2].SetActive(false);
         }
 
         time = Time.timeSinceLevelLoad;

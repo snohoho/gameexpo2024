@@ -17,6 +17,7 @@ public class PlatformPlayer : MonoBehaviour
     public float currentSpeed;
     public bool invuln;
     public bool dead;
+    public bool levelComplete;
 
     //hp handling
     public int hp = 3;
@@ -61,6 +62,7 @@ public class PlatformPlayer : MonoBehaviour
     public bool tricking;
     public bool manualing;
     public int comboMeter;
+    public int maxCombo;
 
     //timestop params
     [Header("Time Stop")]
@@ -243,6 +245,10 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         trickTimer -= Time.fixedDeltaTime;
+
+        if(comboMeter > maxCombo) {
+            maxCombo = comboMeter;
+        }
         
         //timestop handling
         if(timeStopBar >= timeStopBarMax) {
@@ -325,6 +331,10 @@ public class PlatformPlayer : MonoBehaviour
             jumping = false;
             grinding = true;
             dashCount = 2;
+        }
+
+        if(col.gameObject.tag == "EndPoint") {
+            levelComplete = true;
         }
     }
 
