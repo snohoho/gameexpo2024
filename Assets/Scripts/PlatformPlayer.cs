@@ -367,7 +367,7 @@ public class PlatformPlayer : MonoBehaviour
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
             RaycastHit ray;
-            if(!Physics.Raycast(transform.position, -transform.up, out ray, 1f) || moveInput.y > 0) {
+            if(!Physics.Raycast(transform.position, -transform.up, out ray, 2f) || moveInput.y > 0) {
                 Debug.Log("update dash");
                 dashCount--;
             }
@@ -420,7 +420,7 @@ public class PlatformPlayer : MonoBehaviour
 
                 break;
             case "HealthPu":
-                if(hp <= 3) {
+                if(hp < 3) {
                     hp++;
                 }
                 

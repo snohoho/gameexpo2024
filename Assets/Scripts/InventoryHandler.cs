@@ -33,6 +33,7 @@ public class InventoryHandler : MonoBehaviour
         hasTime = false;
         hasHp = false;
 
+        inventory.SetActive(false);
         jumpPu.SetActive(false);
         dashPu.SetActive(false);
         timePu.SetActive(false);
@@ -117,6 +118,7 @@ public class InventoryHandler : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
 
             inInv = false;
+            lastItemHovered = null;
         }
     }
 
