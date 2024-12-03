@@ -8,6 +8,7 @@ public class LevelSelectAnimator : MonoBehaviour
     [SerializeField] Animator level2;
     [SerializeField] Animator level3;
     [SerializeField] GameObject panel;
+    [SerializeField] GameObject creditsPanel;
 
     private bool fading;
     private bool sliding;
@@ -15,9 +16,14 @@ public class LevelSelectAnimator : MonoBehaviour
     void Awake() {
         fading = true;
         sliding = false;
+
         panel.GetComponent<CanvasGroup>().interactable = false;
         panel.GetComponent<CanvasGroup>().blocksRaycasts = false;
         panel.GetComponent<CanvasGroup>().alpha = 0;
+
+        creditsPanel.GetComponent<CanvasGroup>().interactable = false;
+        creditsPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        creditsPanel.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     void Update() {
@@ -29,10 +35,31 @@ public class LevelSelectAnimator : MonoBehaviour
     }
 
     public void TransitionToLvlSelect() {
-        Debug.Log("test1");
+        creditsPanel.SetActive(false);
         panel.GetComponent<CanvasGroup>().interactable = true;
         panel.GetComponent<CanvasGroup>().blocksRaycasts = true;
         StartCoroutine(FadeInLevelSelect());
+    }
+
+    public void TransitionFromLvlSelect() {
+        creditsPanel.SetActive(true);
+        panel.GetComponent<CanvasGroup>().interactable = false;
+        panel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        StartCoroutine(FadeOutLevelSelect());
+    }
+
+    public void TransitionToCredits() {
+        panel.SetActive(false);
+        creditsPanel.GetComponent<CanvasGroup>().interactable = true;
+        creditsPanel.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        StartCoroutine(FadeInCredits());
+    }
+
+    public void TransitionFromCredits() {
+        panel.SetActive(true);
+        creditsPanel.GetComponent<CanvasGroup>().interactable = false;
+        creditsPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        StartCoroutine(FadeOutCredits());
     }
 
     IEnumerator FadeInLevelSelect() {
@@ -42,7 +69,32 @@ public class LevelSelectAnimator : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         fading = false;
+    }
+
+    IEnumerator FadeOutLevelSelect() {
+        while(panel.GetComponent<CanvasGroup>().alpha > 0f) {
+            panel.GetComponent<CanvasGroup>().alpha -= 0.01f;
+            yield return new WaitForEndOfFrame();
+        }
+
         sliding = false;
+        level1.ResetTrigger("start");
+        level2.ResetTrigger("start");
+        level3.ResetTrigger("start");
+    }
+
+    IEnumerator FadeInCredits() {
+        while(creditsPanel.GetComponent<CanvasGroup>().alpha < 1f) {
+            creditsPanel.GetComponent<CanvasGroup>().alpha += 0.01f;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator FadeOutCredits() {
+        while(creditsPanel.GetComponent<CanvasGroup>().alpha > 0f) {
+            creditsPanel.GetComponent<CanvasGroup>().alpha -= 0.01f;
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     IEnumerator StartSlideAnimation(Animator animator) {
