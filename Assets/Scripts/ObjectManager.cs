@@ -101,5 +101,6 @@ public class ObjectManager : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         gamePaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
