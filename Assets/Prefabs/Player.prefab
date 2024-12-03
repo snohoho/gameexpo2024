@@ -1222,10 +1222,12 @@ MonoBehaviour:
   currentSpeed: 0
   invuln: 0
   dead: 0
+  levelComplete: 0
   hp: 3
   maxSpeed: 25
   acceleration: 60
   jumpHeight: 25
+  canJump: 0
   jumping: 0
   dashHitbox: {fileID: 4397028484805817152}
   dashSpeed: 50
@@ -1238,6 +1240,7 @@ MonoBehaviour:
   tricking: 0
   manualing: 0
   comboMeter: 0
+  maxCombo: 0
   timeStopBarMax: 240
   timeStopBar: 240
   stoppingTime: 0
@@ -1297,7 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6986291315438438718}
-  animator: {fileID: 0}
+  animator: {fileID: 1867296324585761414}
 --- !u!1 &2349917719962158796
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,6 +73,8 @@ public class PlatformPlayer : MonoBehaviour
     //other
     [Header("Other Stuff")]
     [SerializeField] private Canvas inv;
+    [SerializeField] private AudioHandler audioHandler;
+    private PlayerSoundHolder fx;
 
     //debug
     [Header("Debugging")]
@@ -98,6 +100,7 @@ public class PlatformPlayer : MonoBehaviour
             throw new System.Exception("Object doesn't have rigidbody");
         }
         animHandler = GetComponent<PlayerAnimationHandler>();
+        fx = GetComponent<PlayerSoundHolder>();
 
         canJump = true;
         lookingRight = true;
@@ -363,6 +366,7 @@ public class PlatformPlayer : MonoBehaviour
     {
         if(context.started) {
             jumping = true;
+            audioHandler.PlayClip(fx.jumpFx);
         }
         if(context.canceled) {
             jumping = false;
