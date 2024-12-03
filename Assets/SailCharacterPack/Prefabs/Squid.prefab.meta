@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 176522ab2e69b7243a82f5b637db424d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18880
+  packageName: Sail Character Pack
+  packageVersion: Initial
+  assetPath: Assets/SailCharacterPack/Prefabs/Squid.prefab
+  uploadId: 7869
