@@ -9752,9 +9752,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_text
+      value: Drab City. The highest heights and the fastest subway... all here as
+        my playground.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_margin.x
+      value: -165.1536
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1057
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -274
+      objectReference: {fileID: 0}
     - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_Name
       value: PauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19196,6 +19217,10 @@ PrefabInstance:
     - target: {fileID: 3672845209015611809, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
       propertyPath: m_Name
       value: ResultsScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 3672845209015611809, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
