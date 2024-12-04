@@ -66,6 +66,7 @@ public class ObjectManager : MonoBehaviour
         if(player.GetComponent<PlatformPlayer>().dead) {
             transition.GetComponent<TransitionManager>().OnDeath();
             player.GetComponent<PlatformPlayer>().hp = 3;
+            player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);
             player.GetComponent<PlatformPlayer>().dead = false;
             player.transform.position = startPos.position;
         }

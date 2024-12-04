@@ -229,10 +229,15 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         //trick handling
+        
         if(tricking) {
             comboMeter++;
             tricking = false;
+            if(grinding) {
+                audioHandler.PlayClip(fx.grindTrickfx);
+            }
         }
+
         if(!manualing || (Mathf.Abs(rb.velocity.x) < 0.5f && !grinding)) {
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
@@ -299,12 +304,16 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
+            
+            audioHandler.PlayClip(fx.landFx);
         }
         if(col.gameObject.tag == "Enemy" && !invuln) {
             hp--;
             comboMeter = 0;
             grinding = false;
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
+
+            audioHandler.PlayClip(fx.damageFx);
             StartCoroutine(InvulnFrames());
         }
     }
@@ -349,6 +358,7 @@ public class PlatformPlayer : MonoBehaviour
         if(!grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding) {
             //Debug.Log("grind rail exit");
             grinding = false;
+            audioHandler.StopClipContinuous(grinding);
         }
     }
 
@@ -418,7 +428,7 @@ public class PlatformPlayer : MonoBehaviour
                 manualing = true;
             }
 
-            if(trickTimer >= 0) {
+            if(trickTimer <= 0) {
                 audioHandler.PlayClip(fx.trickFx);
             }
         }
