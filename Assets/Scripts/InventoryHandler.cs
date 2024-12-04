@@ -85,6 +85,8 @@ public class InventoryHandler : MonoBehaviour
             default:
                 break;
         }
+
+        player.audioHandler.PlayClip(player.fx.powerupGetFx);
     }
 
     public void Inventory(InputAction.CallbackContext context) {

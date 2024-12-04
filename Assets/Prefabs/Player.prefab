@@ -933,6 +933,7 @@ GameObject:
   - component: {fileID: 3603419399043962322}
   - component: {fileID: 7485094306775814947}
   - component: {fileID: 3253022437108491974}
+  - component: {fileID: 5375456624785863361}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1222,10 +1223,12 @@ MonoBehaviour:
   currentSpeed: 0
   invuln: 0
   dead: 0
+  levelComplete: 0
   hp: 3
   maxSpeed: 25
   acceleration: 60
   jumpHeight: 25
+  canJump: 0
   jumping: 0
   dashHitbox: {fileID: 4397028484805817152}
   dashSpeed: 50
@@ -1238,10 +1241,13 @@ MonoBehaviour:
   tricking: 0
   manualing: 0
   comboMeter: 0
+  maxCombo: 0
   timeStopBarMax: 240
   timeStopBar: 240
   stoppingTime: 0
   inv: {fileID: 3773255251935075293}
+  audioHandler: {fileID: 0}
+  fx: {fileID: 0}
   speedTrack: {fileID: 480267659290657931}
   lastDirTrack: {fileID: 6132411274364076226}
   ddTimerTrack: {fileID: 377847582440339864}
@@ -1291,13 +1297,37 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2273780566610284062}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7e64d1e256867c4d8825e7f02827cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6986291315438438718}
-  animator: {fileID: 0}
+  animator: {fileID: 1867296324585761414}
+--- !u!114 &5375456624785863361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273780566610284062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbaa3897c2d52d47946d1f027424f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpFx: {fileID: 0}
+  dashFx: {fileID: 0}
+  landFx: {fileID: 0}
+  grindingFx: {fileID: 0}
+  trickFx: {fileID: 0}
+  grindTrickFx: {fileID: 0}
+  stoppingTimeFx: {fileID: 0}
+  powerupGetFx: {fileID: 0}
+  powerupUseFx: {fileID: 0}
+  damageFx: {fileID: 0}
+  deathFx: {fileID: 0}
+  levelWinFx: {fileID: 0}
 --- !u!1 &2349917719962158796
 GameObject:
   m_ObjectHideFlags: 0
