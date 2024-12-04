@@ -5,11 +5,15 @@ using UnityEngine;
 public class PlayerSoundHolder : MonoBehaviour
 {
     public AudioClip jumpFx;
-    [SerializeField] private AudioClip dashFx;
-    [SerializeField] private AudioClip stoppingTimeFx;
-    [SerializeField] private AudioClip trickFx;
-    [SerializeField] private AudioClip grindFx;
-    [SerializeField] private AudioClip manualFx;
-    [SerializeField] private AudioClip hitFx;
-    [SerializeField] private AudioClip deathFx;
+    public AudioClip dashFx;
+    public AudioClip landFx;
+    public AudioClip grindingFx;
+    public AudioClip trickFx;
+    public AudioClip grindTrickFx;
+    public AudioClip stoppingTimeFx;
+    public AudioClip powerupGetFx;
+    public AudioClip powerupUseFx;
+    public AudioClip damageFx;
+    public AudioClip deathFx;
+    public AudioClip levelWinFx;
 }

@@ -142,13 +142,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpFx: {fileID: 8300000, guid: 396d0f61fddbdfa4b865d47dac82eb73, type: 3}
-  dashFx: {fileID: 0}
-  stoppingTimeFx: {fileID: 0}
-  trickFx: {fileID: 0}
-  grindFx: {fileID: 0}
-  manualFx: {fileID: 0}
-  hitFx: {fileID: 0}
+  dashFx: {fileID: 8300000, guid: 50e785f6baa1a214db501a0237e6db17, type: 3}
+  landFx: {fileID: 0}
+  grindingFx: {fileID: 8300000, guid: ea36ce5426a79e14f96dc6b970160e53, type: 3}
+  trickFx: {fileID: 8300000, guid: 09aabb57f7ad0ee4daf2d02e0ba09dd7, type: 3}
+  grindTrickFx: {fileID: 0}
+  stoppingTimeFx: {fileID: 8300000, guid: a0d5991779879eb48bb63ffd2ec2ea3f, type: 3}
+  powerupGetFx: {fileID: 0}
+  powerupUseFx: {fileID: 0}
+  damageFx: {fileID: 0}
   deathFx: {fileID: 0}
+  levelWinFx: {fileID: 0}
 --- !u!1 &211113405
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 5418360093761260937, guid: 4c25b734e092eeb4d8edf989ecc8d39e, type: 3}
+  continuousSource: {fileID: 409418127798217904, guid: 15337a0e7ce9cc649906a78c3ff074bf, type: 3}
+  player: {fileID: 0}
 --- !u!4 &747015715
 Transform:
   m_ObjectHideFlags: 0

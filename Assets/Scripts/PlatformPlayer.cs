@@ -73,8 +73,8 @@ public class PlatformPlayer : MonoBehaviour
     //other
     [Header("Other Stuff")]
     [SerializeField] private Canvas inv;
-    [SerializeField] private AudioHandler audioHandler;
-    private PlayerSoundHolder fx;
+    public AudioHandler audioHandler;
+    public PlayerSoundHolder fx;
 
     //debug
     [Header("Debugging")]
@@ -210,7 +210,8 @@ public class PlatformPlayer : MonoBehaviour
                     
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
                 }
-                rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);;
+                rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);
+                audioHandler.StopClipContinuous(grinding);
                 return;
             }
 
@@ -334,10 +335,13 @@ public class PlatformPlayer : MonoBehaviour
             jumping = false;
             grinding = true;
             dashCount = 2;
+
+            audioHandler.PlayClipContinuous(fx.grindingFx, grinding);
         }
 
         if(col.gameObject.tag == "EndPoint") {
             levelComplete = true;
+            audioHandler.PlayClip(fx.levelWinFx);
         }
     }
 
@@ -366,7 +370,10 @@ public class PlatformPlayer : MonoBehaviour
     {
         if(context.started) {
             jumping = true;
-            audioHandler.PlayClip(fx.jumpFx);
+
+            if(canJump) {
+                audioHandler.PlayClip(fx.jumpFx);
+            }
         }
         if(context.canceled) {
             jumping = false;
@@ -389,6 +396,10 @@ public class PlatformPlayer : MonoBehaviour
                 Debug.Log("update dash");
                 dashCount--;
             }
+
+            if(dashCount > 0) {
+                audioHandler.PlayClip(fx.dashFx);
+            }
         }
         if(context.canceled) {
             dashing = false;
@@ -406,6 +417,10 @@ public class PlatformPlayer : MonoBehaviour
                 Debug.Log("maunal");
                 manualing = true;
             }
+
+            if(trickTimer >= 0) {
+                audioHandler.PlayClip(fx.trickFx);
+            }
         }
         if(context.performed) {
             Debug.Log("hold manual");
@@ -420,10 +435,16 @@ public class PlatformPlayer : MonoBehaviour
     public void TimeStop(InputAction.CallbackContext context) {
         if(context.started && timeStopBar > 0) {
             stoppingTime = !stoppingTime;
+
+            if(stoppingTime) {
+                audioHandler.PlayClip(fx.stoppingTimeFx);
+            }     
         }
     }
 
     public void EffectHandler(string powerUp) {
+        audioHandler.PlayClip(fx.powerupUseFx);
+
         switch(powerUp) {
             case "JumpPu":
                 rb.AddForce(transform.up * 200f, ForceMode.VelocityChange);
