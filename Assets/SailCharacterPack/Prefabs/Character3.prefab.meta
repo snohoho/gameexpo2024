@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 89fc79b8e96bce64d9ea713a39f3f05e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18880
+  packageName: Sail Character Pack
+  packageVersion: Initial
+  assetPath: Assets/SailCharacterPack/Prefabs/Character3.prefab
+  uploadId: 7869
