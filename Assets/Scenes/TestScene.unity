@@ -129,11 +129,10 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 401471855767037464, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
   m_PrefabInstance: {fileID: 1124322463124691092}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &19104187
+--- !u!114 &19104187 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5375456624785863361, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+  m_PrefabInstance: {fileID: 1124322463124691092}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19104171}
   m_Enabled: 1
@@ -141,18 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fbaa3897c2d52d47946d1f027424f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpFx: {fileID: 8300000, guid: 396d0f61fddbdfa4b865d47dac82eb73, type: 3}
-  dashFx: {fileID: 8300000, guid: 50e785f6baa1a214db501a0237e6db17, type: 3}
-  landFx: {fileID: 0}
-  grindingFx: {fileID: 8300000, guid: ea36ce5426a79e14f96dc6b970160e53, type: 3}
-  trickFx: {fileID: 8300000, guid: 09aabb57f7ad0ee4daf2d02e0ba09dd7, type: 3}
-  grindTrickFx: {fileID: 0}
-  stoppingTimeFx: {fileID: 8300000, guid: a0d5991779879eb48bb63ffd2ec2ea3f, type: 3}
-  powerupGetFx: {fileID: 0}
-  powerupUseFx: {fileID: 0}
-  damageFx: {fileID: 0}
-  deathFx: {fileID: 0}
-  levelWinFx: {fileID: 0}
 --- !u!1 &211113405
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,22 +972,30 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 636121205}
-    - target: {fileID: 2069507134890915342, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Pause
-      objectReference: {fileID: 0}
     - target: {fileID: 2273780566610284062, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3253022437108491974, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3603419399043962322, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 5375456624785863361, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: dashFx
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5375456624785863361, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: jumpFx
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5375456624785863361, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: landFx
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7416641447296355552, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: fx
+      value: 
+      objectReference: {fileID: 19104187}
     - target: {fileID: 7416641447296355552, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: audioHandler
       value: 
@@ -1009,9 +1004,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2273780566610284062, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 19104187}
     - targetCorrespondingSourceObject: {fileID: 1526700912435796028, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -1396,7 +1388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6823564759301125776, guid: b2365d5af0388974bb820eec96d0ee79, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.37
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 6823564759301125776, guid: b2365d5af0388974bb820eec96d0ee79, type: 3}
       propertyPath: m_LocalPosition.z
