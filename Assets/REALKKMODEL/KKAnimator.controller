@@ -314,7 +314,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: dead
+    m_ConditionEvent: dead2
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7562141517597483511}
@@ -739,6 +739,18 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: StopGrind
     m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: dead2
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: grind2
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1533,7 +1545,7 @@ AnimatorStateMachine:
     m_Position: {x: 810, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5774681891110084031}
-    m_Position: {x: 780, y: 0, z: 0}
+    m_Position: {x: 820, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8986731296783631200}
     m_Position: {x: 1200, y: -30, z: 0}
