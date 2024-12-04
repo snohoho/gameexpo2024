@@ -1247,7 +1247,7 @@ MonoBehaviour:
   stoppingTime: 0
   inv: {fileID: 3773255251935075293}
   audioHandler: {fileID: 0}
-  fx: {fileID: 0}
+  fx: {fileID: 5375456624785863361}
   speedTrack: {fileID: 480267659290657931}
   lastDirTrack: {fileID: 6132411274364076226}
   ddTimerTrack: {fileID: 377847582440339864}
@@ -1316,18 +1316,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fbaa3897c2d52d47946d1f027424f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpFx: {fileID: 0}
-  dashFx: {fileID: 0}
-  landFx: {fileID: 0}
-  grindingFx: {fileID: 0}
-  trickFx: {fileID: 0}
-  grindTrickFx: {fileID: 0}
-  stoppingTimeFx: {fileID: 0}
-  powerupGetFx: {fileID: 0}
-  powerupUseFx: {fileID: 0}
-  damageFx: {fileID: 0}
-  deathFx: {fileID: 0}
-  levelWinFx: {fileID: 0}
+  jumpFx: {fileID: 8300000, guid: 7d59be30d0a939143816e36b2c527769, type: 3}
+  dashFx: {fileID: 8300000, guid: fca6bb00acbf34842a02ce8d7004a50f, type: 3}
+  landFx: {fileID: 8300000, guid: ea0e197785c75304a98e2c0e3dd7f822, type: 3}
+  grindingFx: {fileID: 8300000, guid: 54dcb0ff9fbaeed4081cf4816beee6a8, type: 3}
+  trickFx: {fileID: 8300000, guid: 8d2f4aca69b59aa42bd663f855a47972, type: 3}
+  grindTrickFx: {fileID: 8300000, guid: 3f6f2573c518a7f49a616e40377de6b1, type: 3}
+  stoppingTimeFx: {fileID: 8300000, guid: 1de2f9a48ef023648b4bc88bd6151268, type: 3}
+  powerupGetFx: {fileID: 8300000, guid: 0046f19a7f4ff3e42b2bffc4cdff220c, type: 3}
+  powerupUseFx: {fileID: 8300000, guid: 8ff30bbf7e2680a4f8ced923a29f3b1c, type: 3}
+  damageFx: {fileID: 8300000, guid: 14c47c1677493de4e84963fb58ec4fc7, type: 3}
+  deathFx: {fileID: 8300000, guid: 88cdcf8aa006ea34cb6ebcb85538aa5d, type: 3}
+  levelWinFx: {fileID: 8300000, guid: 2bd8038e327664c4f987e098dafa846c, type: 3}
 --- !u!1 &2349917719962158796
 GameObject:
   m_ObjectHideFlags: 0
