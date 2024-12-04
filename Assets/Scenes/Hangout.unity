@@ -1295,6 +1295,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_text
+      value: The hangout. Where me and my buds can practice sick tricks without worry.
+      objectReference: {fileID: 0}
     - target: {fileID: 5877841756568370595, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1303,13 +1307,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RestartLevel
       objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1053
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -250
+      objectReference: {fileID: 0}
     - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7209,6 +7221,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3fa89dd70cfa43047ad91501d8c9e70e, type: 2}
+    - target: {fileID: 2069507134890915342, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 170222504}
+    - target: {fileID: 2069507134890915342, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Pause
+      objectReference: {fileID: 0}
     - target: {fileID: 2273780566610284062, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: m_Name
       value: Player
