@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 054a31a99d11e49d110086ba44295342
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18880
+  packageName: Sail Character Pack
+  packageVersion: Initial
+  assetPath: Assets/Standard Assets/Toon Shading/Sources/Shaders/Toony-LightedOutline.shader
+  uploadId: 7869
