@@ -65,7 +65,7 @@ public class InventoryHandler : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col) {
-        switch(col.gameObject.tag) {
+        switch(col.gameObject.tag) {  
             case "JumpPu":
                 hasJump = true;
                 Destroy(col.gameObject);
@@ -85,8 +85,6 @@ public class InventoryHandler : MonoBehaviour
             default:
                 break;
         }
-
-        player.audioHandler.PlayClip(player.fx.powerupGetFx);
     }
 
     public void Inventory(InputAction.CallbackContext context) {

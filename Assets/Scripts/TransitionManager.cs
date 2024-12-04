@@ -8,7 +8,7 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] Animator transition;
 
     public void StartGame() {
-        StartCoroutine(TransitionTimer("TestScene"));
+        StartCoroutine(TransitionTimer("Level1"));
     }
 
     public void RestartLevel() {
