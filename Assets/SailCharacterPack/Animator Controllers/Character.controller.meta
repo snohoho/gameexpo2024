@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c3498580770172a4bb4cfe88aa59ea4c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18880
+  packageName: Sail Character Pack
+  packageVersion: Initial
+  assetPath: Assets/SailCharacterPack/Animator Controllers/Character.controller
+  uploadId: 7869
