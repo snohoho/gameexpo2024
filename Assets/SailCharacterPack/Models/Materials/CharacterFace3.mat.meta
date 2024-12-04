@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 82de463b84354314ca9c30f8bd73b579
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18880
+  packageName: Sail Character Pack
+  packageVersion: Initial
+  assetPath: Assets/SailCharacterPack/Models/Materials/CharacterFace3.mat
+  uploadId: 7869
