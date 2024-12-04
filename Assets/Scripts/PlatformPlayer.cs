@@ -234,7 +234,7 @@ public class PlatformPlayer : MonoBehaviour
             comboMeter++;
             tricking = false;
             if(grinding) {
-                audioHandler.PlayClip(fx.grindTrickfx);
+                audioHandler.PlayClip(fx.grindTrickFx);
             }
         }
 
