@@ -23,7 +23,7 @@ public class ObjectManager : MonoBehaviour
 
     void Awake() {
         hp = player.GetComponent<PlatformPlayer>().hp;
-        timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar;
+        timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar *= Time.fixedDeltaTime;
         comboMeter = player.GetComponent<PlatformPlayer>().comboMeter;
 
         gamePaused = false;
@@ -64,9 +64,10 @@ public class ObjectManager : MonoBehaviour
         }
 
         if(player.GetComponent<PlatformPlayer>().dead) {
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             transition.GetComponent<TransitionManager>().OnDeath();
-            player.GetComponent<PlatformPlayer>().hp = 3;
             player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);
+            player.GetComponent<PlatformPlayer>().hp = 3;
             player.GetComponent<PlatformPlayer>().dead = false;
             player.transform.position = startPos.position;
         }

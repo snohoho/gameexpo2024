@@ -89,7 +89,6 @@ public class PlatformPlayer : MonoBehaviour
 
     void Awake() {
         timeStopBarMax *= Time.fixedDeltaTime;
-        timeStopBar *= Time.fixedDeltaTime;
         trickCooldown *= Time.fixedDeltaTime;
     }
 
@@ -115,6 +114,7 @@ public class PlatformPlayer : MonoBehaviour
 
         if(hp <= 0) {
             dead = true;
+            return;
         }
 
         rb.AddForce(new Vector3(moveInput.x, 0, 0).normalized * acceleration, ForceMode.Acceleration);
@@ -242,8 +242,7 @@ public class PlatformPlayer : MonoBehaviour
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
-                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && !grinding) {
-                    //Debug.Log("not manualing while on ground end combo");
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && ray.collider.tag == "Ground") {
                     comboMeter = 0;
                 }
                 manualing = false;
@@ -345,7 +344,7 @@ public class PlatformPlayer : MonoBehaviour
             grinding = true;
             dashCount = 2;
 
-            audioHandler.PlayClipContinuous(fx.grindingFx, grinding);
+            audioHandler.PlayClip(fx.grindingFx);
         }
 
         if(col.gameObject.tag == "EndPoint") {
