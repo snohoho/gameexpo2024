@@ -313,7 +313,9 @@ public class PlatformPlayer : MonoBehaviour
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
 
             audioHandler.PlayClip(fx.damageFx);
-            StartCoroutine(InvulnFrames());
+            if(hp > 0) {
+                StartCoroutine(InvulnFrames());
+            }
         }
     }
 
