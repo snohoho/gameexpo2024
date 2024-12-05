@@ -9,11 +9,11 @@ public class HitboxCollider : MonoBehaviour
     private void OnTriggerEnter(Collider col) {
         if(col.gameObject.tag == "EnemyHurtbox" && !transform.parent.GetComponent<PlatformPlayer>().invuln) {
             Debug.Log("hitbox to hurtbox");
-            StartCoroutine(OnHitInvuln());
             transform.parent.GetComponent<PlatformPlayer>().comboMeter++;
 
             var rb = transform.parent.GetComponent<Rigidbody>();
             if(!transform.parent.GetComponent<PlatformPlayer>().dashHitbox.activeSelf) {
+                StartCoroutine(OnHitInvuln());
                 rb.AddForce(transform.parent.up * 50f, ForceMode.VelocityChange); 
             }
         }
