@@ -66,9 +66,15 @@ public class PlayerAnimationHandler : MonoBehaviour
             animator.ResetTrigger("dead");
         }
 
+        if(player.stoppingTime) {
+            animator.SetTrigger("stoppingTime");
+        }
+        else if(!player.stoppingTime) {
+            animator.ResetTrigger("stoppingTime");
+        }
+
         animator.SetBool("jumping", jumping);
         animator.SetBool("dashing", dashing);
-        animator.SetBool("stoppingTime", stoppingTime);
         animator.SetBool("tricking", tricking);
         animator.SetBool("grinding", grinding);
         animator.SetBool("takingHit", takingHit);

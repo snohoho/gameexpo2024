@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\LevelSelectAnimator.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleSampleCharacterControl.cs" />
     <Compile Include="Assets\Scripts\EnemyBaller.cs" />
+    <Compile Include="Assets\Scripts\PrefabHurtboxController.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\AccessoryLogic.cs" />
     <Compile Include="Assets\Scripts\PlayerCam.cs" />
     <Compile Include="Assets\Scripts\PlatformPlayer.cs" />

@@ -20,6 +20,7 @@ public class ObjectManager : MonoBehaviour
     public int comboMeter;
     public bool gamePaused;
     public bool blah;
+    public bool doingTransition;
 
     void Awake() {
         hp = player.GetComponent<PlatformPlayer>().hp;
@@ -63,13 +64,15 @@ public class ObjectManager : MonoBehaviour
             return;
         }
 
-        if(player.GetComponent<PlatformPlayer>().dead) {
+        if(player.GetComponent<PlatformPlayer>().dead && !doingTransition) {
+            doingTransition = true;
             player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            transition.GetComponent<TransitionManager>().OnDeath();
-            player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);
-            player.GetComponent<PlatformPlayer>().hp = 3;
-            player.GetComponent<PlatformPlayer>().dead = false;
-            player.transform.position = startPos.position;
+            transition.GetComponent<TransitionManager>().OnDeath(player, startPos);
+            player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);      
+        }
+
+        if(!player.GetComponent<PlatformPlayer>().dead) {
+            doingTransition = false;
         }
 
         stoppingTime = player.GetComponent<PlatformPlayer>().stoppingTime;
