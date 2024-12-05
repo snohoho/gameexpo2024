@@ -945,6 +945,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 14927331e96af91429ec6cf0d503fecb, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 50d1a87e7fde038498a3dcd4d685ba14, type: 2}
     - target: {fileID: 919132149155446097, guid: 14927331e96af91429ec6cf0d503fecb, type: 3}
       propertyPath: m_Name
       value: hedge
@@ -3014,6 +3018,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 14927331e96af91429ec6cf0d503fecb, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 50d1a87e7fde038498a3dcd4d685ba14, type: 2}
     - target: {fileID: 919132149155446097, guid: 14927331e96af91429ec6cf0d503fecb, type: 3}
       propertyPath: m_Name
       value: hedge (1)
@@ -5953,7 +5961,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0af88ac224bf99f49afbb0ed81b9dfae, type: 2}
+  - {fileID: 2100000, guid: 0944e6522a9a54b44ae44d22a44081af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6398,7 +6406,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 55ca298f6e41e0048b9457cb703a437b, type: 2}
+  - {fileID: 2100000, guid: 69a8eadd5399264489e82422fa62a642, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
