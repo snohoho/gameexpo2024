@@ -50,7 +50,7 @@ public class EnemyBaseballLauncher : MonoBehaviour
             return;
         }
         else {
-            rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
 
             if((newBall != null || newBall.Length != 0) && frozen) {
                 StartCoroutine(UnfreezeBalls());
