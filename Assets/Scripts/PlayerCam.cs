@@ -13,6 +13,7 @@ public class PlayerCam : MonoBehaviour
     private float maxSize; 
     private float speedMult = 50f;
     private float sizeCheck;
+    float initVel = 0f;
 
     void Start() 
     {
@@ -27,36 +28,28 @@ public class PlayerCam : MonoBehaviour
         cam.transform.position = transform.position + new Vector3(0,0,-10f);
 
         sizeCheck = minSize * (1 + Mathf.Abs(currentSpeed)/speedMult);
-        
-        if(sizeCheck <= maxSize && !dashing) {
+
+        if(sizeCheck < maxSize && !dashing) {
             cam.orthographicSize = sizeCheck;
         }
-        if(playerScript.dashing && playerScript.dashCount >= 0) {
+        else if(sizeCheck >= maxSize && !dashing) {
+            cam.orthographicSize = maxSize;
+        }
+        if(playerScript.dashing && playerScript.dashCount >= 0 && !dashing) {
             StartCoroutine(DashCameraBoost());
         }
     }
 
     IEnumerator DashCameraBoost() 
     {
-        dashing = true;
-        int count = 0;
+        dashing = true;  
+        float target = cam.orthographicSize + 5f;
+
+        while(cam.orthographicSize < target) {
+            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, target, ref initVel, 0.02f); 
+            yield return new WaitForEndOfFrame(); 
+        }
         
-        while(count < 2) {
-            cam.orthographicSize += 3f;
-            
-            yield return new WaitForSeconds(0.02f);
-
-            count++;
-        }
-
-        while(count < 4) {
-            cam.orthographicSize -= 3f;
-
-            yield return new WaitForSeconds(0.02f);
-
-            count++;
-        }
-
-        dashing = false;       
+        dashing = false;    
     }
 }

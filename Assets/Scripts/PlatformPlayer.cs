@@ -17,6 +17,7 @@ public class PlatformPlayer : MonoBehaviour
     public float currentSpeed;
     public bool invuln;
     public bool dead;
+    public bool levelComplete;
 
     //hp handling
     public int hp = 3;
@@ -61,6 +62,7 @@ public class PlatformPlayer : MonoBehaviour
     public bool tricking;
     public bool manualing;
     public int comboMeter;
+    public int maxCombo;
 
     //timestop params
     [Header("Time Stop")]
@@ -71,6 +73,8 @@ public class PlatformPlayer : MonoBehaviour
     //other
     [Header("Other Stuff")]
     [SerializeField] private Canvas inv;
+    public AudioHandler audioHandler;
+    public PlayerSoundHolder fx;
 
     //debug
     [Header("Debugging")]
@@ -96,6 +100,7 @@ public class PlatformPlayer : MonoBehaviour
             throw new System.Exception("Object doesn't have rigidbody");
         }
         animHandler = GetComponent<PlayerAnimationHandler>();
+        fx = GetComponent<PlayerSoundHolder>();
 
         canJump = true;
         lookingRight = true;
@@ -104,6 +109,10 @@ public class PlatformPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused) {
+            return;
+        }
+
         if(hp <= 0) {
             dead = true;
         }
@@ -201,7 +210,8 @@ public class PlatformPlayer : MonoBehaviour
                     
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
                 }
-                rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);;
+                rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);
+                audioHandler.StopClipContinuous(grinding);
                 return;
             }
 
@@ -219,10 +229,15 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         //trick handling
+        
         if(tricking) {
             comboMeter++;
             tricking = false;
+            if(grinding) {
+                audioHandler.PlayClip(fx.grindTrickFx);
+            }
         }
+
         if(!manualing || (Mathf.Abs(rb.velocity.x) < 0.5f && !grinding)) {
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
@@ -239,6 +254,10 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         trickTimer -= Time.fixedDeltaTime;
+
+        if(comboMeter > maxCombo) {
+            maxCombo = comboMeter;
+        }
         
         //timestop handling
         if(timeStopBar >= timeStopBarMax) {
@@ -285,12 +304,16 @@ public class PlatformPlayer : MonoBehaviour
             }
 
             dropDashing = false;
+            
+            audioHandler.PlayClip(fx.landFx);
         }
         if(col.gameObject.tag == "Enemy" && !invuln) {
             hp--;
             comboMeter = 0;
             grinding = false;
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
+
+            audioHandler.PlayClip(fx.damageFx);
             StartCoroutine(InvulnFrames());
         }
     }
@@ -321,6 +344,13 @@ public class PlatformPlayer : MonoBehaviour
             jumping = false;
             grinding = true;
             dashCount = 2;
+
+            audioHandler.PlayClipContinuous(fx.grindingFx, grinding);
+        }
+
+        if(col.gameObject.tag == "EndPoint") {
+            levelComplete = true;
+            audioHandler.PlayClip(fx.levelWinFx);
         }
     }
 
@@ -328,6 +358,7 @@ public class PlatformPlayer : MonoBehaviour
         if(!grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding) {
             //Debug.Log("grind rail exit");
             grinding = false;
+            audioHandler.StopClipContinuous(grinding);
         }
     }
 
@@ -349,6 +380,10 @@ public class PlatformPlayer : MonoBehaviour
     {
         if(context.started) {
             jumping = true;
+
+            if(canJump) {
+                audioHandler.PlayClip(fx.jumpFx);
+            }
         }
         if(context.canceled) {
             jumping = false;
@@ -367,9 +402,13 @@ public class PlatformPlayer : MonoBehaviour
             //cast a ray down. if it doesnt hit the ground then update the dash counter
             //also updates if they dash up
             RaycastHit ray;
-            if(!Physics.Raycast(transform.position, -transform.up, out ray, 1f) || moveInput.y > 0) {
+            if(!Physics.Raycast(transform.position, -transform.up, out ray, 2f) || moveInput.y > 0) {
                 Debug.Log("update dash");
                 dashCount--;
+            }
+
+            if(dashCount > 0) {
+                audioHandler.PlayClip(fx.dashFx);
             }
         }
         if(context.canceled) {
@@ -388,6 +427,10 @@ public class PlatformPlayer : MonoBehaviour
                 Debug.Log("maunal");
                 manualing = true;
             }
+
+            if(trickTimer <= 0) {
+                audioHandler.PlayClip(fx.trickFx);
+            }
         }
         if(context.performed) {
             Debug.Log("hold manual");
@@ -402,10 +445,16 @@ public class PlatformPlayer : MonoBehaviour
     public void TimeStop(InputAction.CallbackContext context) {
         if(context.started && timeStopBar > 0) {
             stoppingTime = !stoppingTime;
+
+            if(stoppingTime) {
+                audioHandler.PlayClip(fx.stoppingTimeFx);
+            }     
         }
     }
 
     public void EffectHandler(string powerUp) {
+        audioHandler.PlayClip(fx.powerupUseFx);
+
         switch(powerUp) {
             case "JumpPu":
                 rb.AddForce(transform.up * 200f, ForceMode.VelocityChange);
@@ -420,7 +469,7 @@ public class PlatformPlayer : MonoBehaviour
 
                 break;
             case "HealthPu":
-                if(hp <= 3) {
+                if(hp < 3) {
                     hp++;
                 }
                 

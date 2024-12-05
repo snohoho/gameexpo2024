@@ -33,6 +33,7 @@ public class InventoryHandler : MonoBehaviour
         hasTime = false;
         hasHp = false;
 
+        inventory.SetActive(false);
         jumpPu.SetActive(false);
         dashPu.SetActive(false);
         timePu.SetActive(false);
@@ -45,6 +46,10 @@ public class InventoryHandler : MonoBehaviour
 
     void Update()
     {
+        if(transform.parent.GetComponent<ObjectManager>().gamePaused || player.GetComponent<PlatformPlayer>().levelComplete) {
+            return;
+        }
+
         if(inInv) {
             inventory.SetActive(true);
             jumpPu.SetActive(hasJump);
@@ -60,7 +65,7 @@ public class InventoryHandler : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider col) {
-        switch(col.gameObject.tag) {
+        switch(col.gameObject.tag) {  
             case "JumpPu":
                 hasJump = true;
                 Destroy(col.gameObject);
@@ -117,6 +122,7 @@ public class InventoryHandler : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
 
             inInv = false;
+            lastItemHovered = null;
         }
     }
 
