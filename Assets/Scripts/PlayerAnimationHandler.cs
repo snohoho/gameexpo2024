@@ -47,11 +47,23 @@ public class PlayerAnimationHandler : MonoBehaviour
 
         if (player.moveInput.x != 0) {
             animator.SetBool("moving", true);
-            Debug.Log("Moving now");
         }
         else {
             animator.SetBool("moving", false);
-            Debug.Log("Stopped Moving");
+        }
+
+        if(player.manualing) {
+            animator.SetTrigger("manualing");
+        }
+        else if(!player.manualing) {
+            animator.ResetTrigger("manualing");
+        }
+        
+        if(player.dead) {
+            animator.SetTrigger("dead");
+        }
+        else if(!player.dead) {
+            animator.ResetTrigger("dead");
         }
 
         animator.SetBool("jumping", jumping);
@@ -59,9 +71,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         animator.SetBool("stoppingTime", stoppingTime);
         animator.SetBool("tricking", tricking);
         animator.SetBool("grinding", grinding);
-        animator.SetBool("manualing", manualing);
         animator.SetBool("takingHit", takingHit);
-        animator.SetBool("dead", dead);
         animator.SetBool("inAir", !inAir);
     }
 }
