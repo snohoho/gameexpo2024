@@ -157,7 +157,6 @@ MonoBehaviour:
   enemyTransform: {fileID: 0}
   hurtbox: {fileID: 7523135967255174191}
   bballPrefab: {fileID: 6176271222371446450}
-  animator: {fileID: 3329037163138142691}
 --- !u!1 &7523135967255174191
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,11 +339,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9854bb05e98038145add8ed7c25af4b1, type: 3}
---- !u!95 &3329037163138142691 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7513152564707746676, guid: 9854bb05e98038145add8ed7c25af4b1, type: 3}
-  m_PrefabInstance: {fileID: 5077537940856648343}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5330010279486086404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1121125582535847827, guid: 9854bb05e98038145add8ed7c25af4b1, type: 3}

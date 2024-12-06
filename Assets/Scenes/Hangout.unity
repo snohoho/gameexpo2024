@@ -1413,6 +1413,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_text
+      value: This is where the Kewl Kidds hang out. Practice here to make crazier
+        escapes.
+      objectReference: {fileID: 0}
     - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_Name
       value: PauseMenu
@@ -8693,6 +8698,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3fa89dd70cfa43047ad91501d8c9e70e, type: 2}
+    - target: {fileID: 2069507134890915342, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 170222504}
+    - target: {fileID: 2069507134890915342, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Pause
+      objectReference: {fileID: 0}
     - target: {fileID: 2273780566610284062, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: m_Name
       value: Player
@@ -8717,6 +8730,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3fa89dd70cfa43047ad91501d8c9e70e, type: 2}
+    - target: {fileID: 6805395205776456383, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7416641447296355552, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: audioHandler
       value: 
@@ -8732,31 +8749,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1526700912435796028, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 6387811885250327280, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 637851813643422699, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 8920663044191178544, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5752019049706195701, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 2787568065041743285, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 1168730750580562044, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7905644068361172274, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
 --- !u!4 &2141070281 stripped
 Transform:

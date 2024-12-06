@@ -2220,6 +2220,7 @@ MonoBehaviour:
   comboMeter: 0
   gamePaused: 0
   blah: 0
+  doingTransition: 0
 --- !u!4 &105795220
 Transform:
   m_ObjectHideFlags: 0
@@ -10344,6 +10345,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_text
+      value: Drab city. the highest heights and the fastest subway... all here as
+        my playground.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376987476477521145, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1046
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249446351821131965, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -214
+      objectReference: {fileID: 0}
     - target: {fileID: 8828002816909311940, guid: 9fb5ab2f94d514a4ea69aa898358e983, type: 3}
       propertyPath: m_Name
       value: PauseMenu
@@ -12413,7 +12431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cee38999f3dddd045bbf2aabe6030395, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.803288
+      value: -29.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cee38999f3dddd045bbf2aabe6030395, type: 3}
       propertyPath: m_LocalPosition.z
@@ -27273,6 +27291,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3fa89dd70cfa43047ad91501d8c9e70e, type: 2}
+    - target: {fileID: 6805395205776456383, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7416641447296355552, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
       propertyPath: audioHandler
       value: 
@@ -27288,31 +27310,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1526700912435796028, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 6387811885250327280, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 637851813643422699, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 8920663044191178544, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5752019049706195701, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 2787568065041743285, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 1168730750580562044, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7905644068361172274, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3254b0051ff8094b8944e62a06cc7a5, type: 3}
 --- !u!1 &1098209785
 GameObject:
@@ -42379,7 +42377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cee38999f3dddd045bbf2aabe6030395, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.803288
+      value: -29.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cee38999f3dddd045bbf2aabe6030395, type: 3}
       propertyPath: m_LocalPosition.z
