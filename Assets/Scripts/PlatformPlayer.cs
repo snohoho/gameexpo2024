@@ -24,7 +24,7 @@ public class PlatformPlayer : MonoBehaviour
         set
         {
             dead = value;
-            animHandler.animator.SetBool("dead2", dead);
+            animHandler.animator.SetBool("dead", dead);
         }
     }
 

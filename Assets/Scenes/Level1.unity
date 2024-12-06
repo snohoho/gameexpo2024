@@ -2657,6 +2657,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScreenUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6315489046207454005, guid: e384e0219157791468152f5a91007e4d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13256,10 +13260,30 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 1835408120}
+    - target: {fileID: 4745273925603529872, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1645244387}
+    - target: {fileID: 4745273925603529872, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 8649386129981199978, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 1255910219}
+    - target: {fileID: 8649386129981199978, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1645244387}
+    - target: {fileID: 8649386129981199978, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649386129981199978, guid: a6c74a19b0b77ee438fa01d7a9a9452f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: City
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
