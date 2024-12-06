@@ -12,12 +12,22 @@ public class PlatformPlayer : MonoBehaviour
     //movement
     private Rigidbody rb;
     public Vector2 moveInput;
-    private PlayerAnimationHandler animHandler;
+    public PlayerAnimationHandler animHandler;
     private bool lookingRight;
     public float currentSpeed;
     public bool invuln;
-    public bool dead;
+    private bool dead;
     public bool levelComplete;
+    public bool Dead
+    {
+        get => dead;
+        set
+        {
+            dead = value;
+            animHandler.animator.SetBool("dead2", dead);
+        }
+    }
+
 
     //hp handling
     public int hp = 3;
@@ -68,7 +78,19 @@ public class PlatformPlayer : MonoBehaviour
     [Header("Time Stop")]
     [SerializeField] private float timeStopBarMax = 180;
     public float timeStopBar = 180;
-    public bool stoppingTime;
+    private bool stoppingTime;
+    public bool StoppingTime{
+        get => stoppingTime;
+        set
+        {
+            stoppingTime = value;
+            if (stoppingTime)
+            {
+                animHandler.animator.SetTrigger("stoppingTime2");
+            }
+            
+        }
+    }
     
     //other
     [Header("Other Stuff")]
@@ -103,7 +125,7 @@ public class PlatformPlayer : MonoBehaviour
 
         canJump = true;
         lookingRight = true;
-        stoppingTime = false;
+        StoppingTime = false;
     }
 
     void FixedUpdate()
@@ -113,7 +135,7 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         if(hp <= 0) {
-            dead = true;
+            Dead = true;
             return;
         }
 
@@ -263,14 +285,14 @@ public class PlatformPlayer : MonoBehaviour
             timeStopBar = timeStopBarMax;
         }
 
-        if(stoppingTime) {
+        if(StoppingTime) {
             timeStopBar -= Time.fixedDeltaTime;
         }
-        else if(!stoppingTime) {
+        else if(!StoppingTime) {
             timeStopBar += Time.fixedDeltaTime/3;
         }
-        if(stoppingTime && timeStopBar <= 0) {
-            stoppingTime = false;
+        if(StoppingTime && timeStopBar <= 0) {
+            StoppingTime = false;
         }
         
         //debug
@@ -445,9 +467,9 @@ public class PlatformPlayer : MonoBehaviour
 
     public void TimeStop(InputAction.CallbackContext context) {
         if(context.started && timeStopBar > 0) {
-            stoppingTime = !stoppingTime;
+            StoppingTime = !StoppingTime;
 
-            if(stoppingTime) {
+            if(StoppingTime) {
                 audioHandler.PlayClip(fx.stoppingTimeFx);
             }     
         }

@@ -64,18 +64,18 @@ public class ObjectManager : MonoBehaviour
             return;
         }
 
-        if(player.GetComponent<PlatformPlayer>().dead && !doingTransition) {
+        if(player.GetComponent<PlatformPlayer>().Dead && !doingTransition) {
             doingTransition = true;
             player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             transition.GetComponent<TransitionManager>().OnDeath(player, startPos);
             player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);      
         }
 
-        if(!player.GetComponent<PlatformPlayer>().dead) {
+        if(!player.GetComponent<PlatformPlayer>().Dead) {
             doingTransition = false;
         }
 
-        stoppingTime = player.GetComponent<PlatformPlayer>().stoppingTime;
+        stoppingTime = player.GetComponent<PlatformPlayer>().StoppingTime;
         hp = player.GetComponent<PlatformPlayer>().hp;
         timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar;
         comboMeter = player.GetComponent<PlatformPlayer>().comboMeter;
