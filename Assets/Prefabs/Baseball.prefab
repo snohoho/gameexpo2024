@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8039216233774406847}
   - component: {fileID: 4728695517954626936}
   - component: {fileID: 8185462367842494607}
+  - component: {fileID: 2320255587839015121}
   m_Layer: 0
   m_Name: BasketballHurtbox
   m_TagString: EnemyHurtbox
@@ -203,3 +204,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliding: 0
+--- !u!114 &2320255587839015121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117989840652082370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beaf5f936526f4e46b4d9b8075b53b5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

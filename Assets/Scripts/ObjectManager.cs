@@ -20,10 +20,11 @@ public class ObjectManager : MonoBehaviour
     public int comboMeter;
     public bool gamePaused;
     public bool blah;
+    public bool doingTransition;
 
     void Awake() {
         hp = player.GetComponent<PlatformPlayer>().hp;
-        timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar;
+        timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar *= Time.fixedDeltaTime;
         comboMeter = player.GetComponent<PlatformPlayer>().comboMeter;
 
         gamePaused = false;
@@ -63,15 +64,18 @@ public class ObjectManager : MonoBehaviour
             return;
         }
 
-        if(player.GetComponent<PlatformPlayer>().dead) {
-            transition.GetComponent<TransitionManager>().OnDeath();
-            player.GetComponent<PlatformPlayer>().hp = 3;
-            player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);
-            player.GetComponent<PlatformPlayer>().dead = false;
-            player.transform.position = startPos.position;
+        if(player.GetComponent<PlatformPlayer>().Dead && !doingTransition) {
+            doingTransition = true;
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            transition.GetComponent<TransitionManager>().OnDeath(player, startPos);
+            player.GetComponent<PlatformPlayer>().audioHandler.PlayClip(player.GetComponent<PlatformPlayer>().fx.deathFx);      
         }
 
-        stoppingTime = player.GetComponent<PlatformPlayer>().stoppingTime;
+        if(!player.GetComponent<PlatformPlayer>().Dead) {
+            doingTransition = false;
+        }
+
+        stoppingTime = player.GetComponent<PlatformPlayer>().StoppingTime;
         hp = player.GetComponent<PlatformPlayer>().hp;
         timeStopBar = player.GetComponent<PlatformPlayer>().timeStopBar;
         comboMeter = player.GetComponent<PlatformPlayer>().comboMeter;

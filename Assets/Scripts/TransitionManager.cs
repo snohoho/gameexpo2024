@@ -31,9 +31,9 @@ public class TransitionManager : MonoBehaviour
         StartCoroutine(TransitionTimer(level));
     }
 
-    public void OnDeath() {
+    public void OnDeath(GameObject player, Transform startPos) {
         transition.ResetTrigger("TransitionEnd");
-        StartCoroutine(TransitionTimer("Death"));
+        StartCoroutine(DeathTransition(player, startPos));
     }
 
     IEnumerator TransitionTimer(string sceneToLoad) {
@@ -47,12 +47,30 @@ public class TransitionManager : MonoBehaviour
             Application.Quit();
         }
 
-        if(sceneToLoad == "Death") {
-            transition.SetTrigger("TransitionEnd");
-            yield break;
-        }
-
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(sceneToLoad);
+    }
+
+    IEnumerator DeathTransition(GameObject player, Transform startPos) {
+        transition.SetTrigger("TransitionStart");
+
+        yield return new WaitUntil(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+        yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+        var platplayer = player.GetComponent<PlatformPlayer>();
+        platplayer.hp = 3;
+        platplayer.Dead = false;
+        platplayer.animHandler.hasDied = false;
+        platplayer.animHandler.animator.SetBool("dead2", false);
+        player.transform.position = startPos.position;
+
+        transition.SetTrigger("TransitionEnd");
+
+        yield return new WaitUntil(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+        
+
+       yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
     }
 }

@@ -12,12 +12,22 @@ public class PlatformPlayer : MonoBehaviour
     //movement
     private Rigidbody rb;
     public Vector2 moveInput;
-    private PlayerAnimationHandler animHandler;
+    public PlayerAnimationHandler animHandler;
     private bool lookingRight;
     public float currentSpeed;
     public bool invuln;
-    public bool dead;
+    private bool dead;
     public bool levelComplete;
+    public bool Dead
+    {
+        get => dead;
+        set
+        {
+            dead = value;
+            animHandler.animator.SetBool("dead2", dead);
+        }
+    }
+
 
     //hp handling
     public int hp = 3;
@@ -68,7 +78,19 @@ public class PlatformPlayer : MonoBehaviour
     [Header("Time Stop")]
     [SerializeField] private float timeStopBarMax = 180;
     public float timeStopBar = 180;
-    public bool stoppingTime;
+    private bool stoppingTime;
+    public bool StoppingTime{
+        get => stoppingTime;
+        set
+        {
+            stoppingTime = value;
+            if (stoppingTime)
+            {
+                animHandler.animator.SetTrigger("stoppingTime2");
+            }
+            
+        }
+    }
     
     //other
     [Header("Other Stuff")]
@@ -89,7 +111,6 @@ public class PlatformPlayer : MonoBehaviour
 
     void Awake() {
         timeStopBarMax *= Time.fixedDeltaTime;
-        timeStopBar *= Time.fixedDeltaTime;
         trickCooldown *= Time.fixedDeltaTime;
     }
 
@@ -104,7 +125,7 @@ public class PlatformPlayer : MonoBehaviour
 
         canJump = true;
         lookingRight = true;
-        stoppingTime = false;
+        StoppingTime = false;
     }
 
     void FixedUpdate()
@@ -114,7 +135,8 @@ public class PlatformPlayer : MonoBehaviour
         }
 
         if(hp <= 0) {
-            dead = true;
+            Dead = true;
+            return;
         }
 
         rb.AddForce(new Vector3(moveInput.x, 0, 0).normalized * acceleration, ForceMode.Acceleration);
@@ -242,8 +264,7 @@ public class PlatformPlayer : MonoBehaviour
             manualTimer -= Time.fixedDeltaTime;
             if(manualTimer <= 0) {
                 RaycastHit ray;
-                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && !grinding) {
-                    //Debug.Log("not manualing while on ground end combo");
+                if(Physics.Raycast(transform.position, -transform.up, out ray, 2f) && ray.collider.tag == "Ground") {
                     comboMeter = 0;
                 }
                 manualing = false;
@@ -264,14 +285,14 @@ public class PlatformPlayer : MonoBehaviour
             timeStopBar = timeStopBarMax;
         }
 
-        if(stoppingTime) {
+        if(StoppingTime) {
             timeStopBar -= Time.fixedDeltaTime;
         }
-        else if(!stoppingTime) {
+        else if(!StoppingTime) {
             timeStopBar += Time.fixedDeltaTime/3;
         }
-        if(stoppingTime && timeStopBar <= 0) {
-            stoppingTime = false;
+        if(StoppingTime && timeStopBar <= 0) {
+            StoppingTime = false;
         }
         
         //debug
@@ -314,7 +335,9 @@ public class PlatformPlayer : MonoBehaviour
             rb.AddForce(-transform.right * 50f + transform.up * 20f, ForceMode.VelocityChange);
 
             audioHandler.PlayClip(fx.damageFx);
-            StartCoroutine(InvulnFrames());
+            if(hp > 0) {
+                StartCoroutine(InvulnFrames());
+            }
         }
     }
 
@@ -345,7 +368,7 @@ public class PlatformPlayer : MonoBehaviour
             grinding = true;
             dashCount = 2;
 
-            audioHandler.PlayClipContinuous(fx.grindingFx, grinding);
+            audioHandler.PlayClip(fx.grindingFx);
         }
 
         if(col.gameObject.tag == "EndPoint") {
@@ -444,9 +467,9 @@ public class PlatformPlayer : MonoBehaviour
 
     public void TimeStop(InputAction.CallbackContext context) {
         if(context.started && timeStopBar > 0) {
-            stoppingTime = !stoppingTime;
+            StoppingTime = !StoppingTime;
 
-            if(stoppingTime) {
+            if(StoppingTime) {
                 audioHandler.PlayClip(fx.stoppingTimeFx);
             }     
         }

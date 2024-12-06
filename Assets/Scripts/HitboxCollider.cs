@@ -13,8 +13,15 @@ public class HitboxCollider : MonoBehaviour
 
             var rb = transform.parent.GetComponent<Rigidbody>();
             if(!transform.parent.GetComponent<PlatformPlayer>().dashHitbox.activeSelf) {
+                StartCoroutine(OnHitInvuln());
                 rb.AddForce(transform.parent.up * 50f, ForceMode.VelocityChange); 
             }
         }
+    }
+
+    IEnumerator OnHitInvuln() {
+        transform.parent.GetComponent<PlatformPlayer>().invuln = true;
+        yield return new WaitForSeconds(0.05f);
+        transform.parent.GetComponent<PlatformPlayer>().invuln = false;
     }
 }

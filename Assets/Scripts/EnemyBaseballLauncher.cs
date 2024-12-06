@@ -50,7 +50,7 @@ public class EnemyBaseballLauncher : MonoBehaviour
             return;
         }
         else {
-            rb.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
 
             if((newBall != null || newBall.Length != 0) && frozen) {
                 StartCoroutine(UnfreezeBalls());
@@ -88,23 +88,28 @@ public class EnemyBaseballLauncher : MonoBehaviour
     }
 
     IEnumerator FreezeBalls() {
-        for(int i=0; i<ballRb.Length; i++) {
+        frozen = true;
+
+        for(int i=0; i<newBall.Length; i++) {
+            if(newBall[i] == null) {
+                continue;
+            }
+
             ballRbPrevVel[i] = ballRb[i].velocity;
             ballRb[i].constraints = RigidbodyConstraints.FreezeAll;
 
             yield return new WaitForEndOfFrame();
         }
-
-        frozen = true;
     }
 
     IEnumerator UnfreezeBalls() {
         for(int i=0; i<ballRb.Length; i++) {
-            ballRb[i].constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ;
+            if(ballRb[i] == null) {
+                continue;
+            }
 
-            if(frozen) {
-                ballRb[i].velocity = ballRbPrevVel[i];
-            }  
+            ballRb[i].constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezePositionZ;
+            ballRb[i].velocity = ballRbPrevVel[i];
 
             yield return new WaitForEndOfFrame();
         }
