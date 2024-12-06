@@ -58,15 +58,19 @@ public class TransitionManager : MonoBehaviour
 
         yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-        player.GetComponent<PlatformPlayer>().hp = 3;
+        var platplayer = player.GetComponent<PlatformPlayer>();
+        platplayer.hp = 3;
+        platplayer.Dead = false;
+        platplayer.animHandler.hasDied = false;
+        platplayer.animHandler.animator.SetBool("dead2", false);
+        player.transform.position = startPos.position;
 
         transition.SetTrigger("TransitionEnd");
 
         yield return new WaitUntil(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-        player.GetComponent<PlatformPlayer>().dead = false;
-        player.transform.position = startPos.position;
+        
 
-        yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+       yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
     }
 }
