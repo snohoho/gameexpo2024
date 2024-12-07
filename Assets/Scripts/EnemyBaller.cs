@@ -16,6 +16,7 @@ public class EnemyBaller : MonoBehaviour
 
     [SerializeField] private GameObject hurtbox;
     [SerializeField] private GameObject bballPrefab;
+    [SerializeField] private Animator animator;
 
     GameObject newBall;
     Rigidbody ballRb;
@@ -70,10 +71,11 @@ public class EnemyBaller : MonoBehaviour
             apex = false;
             bballPrefab.SetActive(true);
             StartCoroutine(Jump());
+            StartCoroutine(JumpAnim());
         }
 
         RaycastHit ray;
-        if(!Physics.Raycast(transform.position, -transform.up, out ray, 1f) && rb.velocity.y <= 0 && apex == false) {
+        if(!Physics.Raycast(transform.position, -transform.up, out ray, 2f) && rb.velocity.y <= 0 && apex == false) {
             Debug.Log("jump apex reached");
             bballPrefab.SetActive(false);
             apex = true;
@@ -98,5 +100,12 @@ public class EnemyBaller : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         jumping = false;
+    }
+
+    IEnumerator JumpAnim() {
+        animator.SetBool("Grounded", false);
+        RaycastHit ray;
+        yield return new WaitUntil(() => Physics.Raycast(transform.position, -transform.up, out ray, 2f));
+        animator.SetBool("Grounded", true);
     }
 }
