@@ -233,7 +233,7 @@ public class PlatformPlayer : MonoBehaviour
                     rb.AddForce(new Vector3(grindMoveInputStorage.x, 1, 0).normalized * jumpHeight, ForceMode.VelocityChange);
                 }
                 rb.AddForce(transform.right * currentSpeed, ForceMode.VelocityChange);
-                audioHandler.StopClipContinuous(grinding);
+                moveInput = grindMoveInputStorage;
                 return;
             }
 
@@ -378,10 +378,9 @@ public class PlatformPlayer : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider col) {
-        if(!grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding) {
-            //Debug.Log("grind rail exit");
+        if(!grindBox.gameObject.GetComponent<GrindBoxCollider>().colliding && grinding) {
+            Debug.Log("testtt23");
             grinding = false;
-            audioHandler.StopClipContinuous(grinding);
         }
     }
 
