@@ -1,7 +1,7 @@
 # Kidd Kewl's Crazy Escape
 [itch.io link](https://daveworks.itch.io/kidd-kewls-crazy-escape)
 
-A game made for Florida Poly's Fall 2024 Game Expo by Jesus De La Rosa, Ethan Davis, Brian Potter, and Alex Hecht.
+A game made for Florida Poly's Fall 2024 Game Expo by Jesus De La Rosa, Ethan Davis, and Brian Potter.
 
 ## Description
 Grind rails, punch principals. Sick tricks, combo basketballs. Stop time, chug juice.
@@ -22,3 +22,12 @@ Hittin' **F** will allow me to stop time for up to 5 seconds.
 **Left Click** allows me to preform sick tricks. **Holding** it after a trick lets me enter a manual.
 
 Holdin' **Right Click** will open up my inventory and allow me to use the drinks I've got stored by **Hovering** over them.
+
+## Special Thanks
+Jesus' old NSLC Game Jam team Jota, Dom, and Jonathan. Let's see each other again sometime!
+
+Alex Hecht, for general help and assistance.
+
+Julian Maniquis, for the music.
+
+Luke, for the Kidd Kewl model.
