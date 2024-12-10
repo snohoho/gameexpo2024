@@ -15,10 +15,10 @@ Use the **W, A, S, and D** keys to move me around the screen.
 
 **Spacebar** will let me jump.
 
-Pressin' **Left Shift **will allow me to dash in any direction, including up. I only get 2 when I'm off the ground, so use 'em wisely!
+Pressin' **Left Shift** will allow me to dash in any direction, including up. I only get 2 when I'm off the ground, so use 'em wisely!
 
 Hittin' **F** will allow me to stop time for up to 5 seconds.
 
-**Left Click **allows me to preform sick tricks. **Holding** it after a trick lets me enter a manual.
+**Left Click** allows me to preform sick tricks. **Holding** it after a trick lets me enter a manual.
 
-Holdin' **Right Click **will open up my inventory and allow me to use the drinks I've got stored by **Hovering** over them.
+Holdin' **Right Click** will open up my inventory and allow me to use the drinks I've got stored by **Hovering** over them.
