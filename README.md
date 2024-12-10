@@ -5,7 +5,9 @@ A game made for Florida Poly's Fall 2024 Game Expo by Jesus De La Rosa, Ethan Da
 
 ## Description
 Grind rails, punch principals. Sick tricks, combo basketballs. Stop time, chug juice.
+
 Kidd Kewl's tired of school. You should be too. Cool kids don't need school, and the coolest kids break out--in style.
+
 Speedrun and combo your way through your school, calling upon Kidd Kewl's power to freeze time to land sicker tricks and longer combos. Don't let those hall monitors stop your groove; dash your way through or stomp on shoes and combo off those squares as well.
 
 ## Controls
